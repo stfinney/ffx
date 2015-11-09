@@ -46,3 +46,6 @@ def vote(request, question_id):
 		selected_choice.save()
 
 		return HttpResponseRedirect(reverse('polls:results',args=(p.id,)))
+
+def index(request):
+	return HttpResponse("Hello World. You are at poll index")
