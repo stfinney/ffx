@@ -48,6 +48,13 @@ am-container {
     margin-bottom: 5px;
 }
 
+.event-info .event-brief-info {
+    margin-top: 10px;
+}
+.event-description {
+    margin-top: 10px;
+}
+
 footer p {
       color: #7f8c8d;
       margin: 0;

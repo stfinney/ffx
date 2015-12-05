@@ -3,7 +3,7 @@
 {% for event in events %}
 <li class="event-item">
         <div class="event-img clearfix">
-                <img src="{{ event.image_url }}">
+            <a href="{% url 'ffx:event_detail' event.id %}"><img src="{{ event.image_url }}"></a>
         </div>
         <div class="event-brief-info">
             <ul class="am-avg-sm-1 am-avg-md-2">
@@ -28,7 +28,7 @@
             </ul>
             <ul class="am-avg-sm-2">
                 <li>
-                    <span class="am-icon-users am-icon-fw"></span>{{ event.participants_count }} going
+                    <span class="am-icon-users am-icon-fw"></span> {{ event.participants_count }} going
                 </li>
                 <li>
                     <a class="am-btn am-btn-primary am-btn-xs" href="">Participate</a>

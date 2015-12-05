@@ -25,7 +25,7 @@
         <form action="" class="am-form am-g">
             <div class="am-form-group am-u-sm-7 am-u-md-4">
                 <!-- Event Type -->
-                <select name="event_type" data-am-selected>
+                <select name="event_type" class="am-input-sm" data-am-selected>
                     {% if event_type and event_type == '' %}
                         <option value="all" selected>All</option>
                     {% else %}
@@ -62,7 +62,7 @@
     {% if events %}
         <div class="am-g">
             <ul class="event-list">
-    {% include page_template %}
+                {% include page_template %}
             </ul>
         </div>
     {% else %}
