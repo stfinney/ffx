@@ -9,6 +9,10 @@ def index(request):
     # })
     # return HttpResponse(template.render(context))
     return render(request, 'events.html', {
-        'latest_events': [{'name': 'E1', 'desc': 'D1', 'image_url': '/static/img/event_1.jpg'}, {'name': 'E2', 'desc': 'D2', 'image_url': '/static/img/event_2.jpg'}],
-        'events': [{'name': 'E1', 'desc': 'D1', 'image_url': '/static/img/event_1.jpg'}, {'name': 'E2', 'desc': 'D2', 'image_url': '/static/img/event_2.jpg'}]
+        'latest_events': [{'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg'},
+                          {'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg'}],
+        'events': [{'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
+                    'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall'},
+                   {'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
+                    'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library'}]
     })

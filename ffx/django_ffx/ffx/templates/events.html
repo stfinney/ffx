@@ -1,19 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        {% if latest_events %}
-            <div data-am-widget="slider" class="am-slider am-slider-b4" data-am-slider='{&quot;controlNav&quot;:false}'>
-                <ul class="am-slides am-g">
+    <!-- Latest Events -->
+    {% if latest_events %}
+        <div class="am-g">
+            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-10 am-u-sm-centered am-u-md-8 am-u-md-centered"
+                 data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
+                <ul class="am-slides">
                     {% for event in latest_events %}
-                        <li class="col-sm-10 col-sm-centered col-bg-1 col-bg-centered">
+                    <li>
                         <img src="{{ event.image_url }}">
-                        <div class="am-slider-desc">{{ event.desc }}</div>
-                        </li>
+                        <div class="am-slider-desc">{{ event.title }}</div>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
+        </div>
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
+
+    <!-- Search Area -->
+    <div class="centered">
+        <form action="" class="am-form am-form-inline">
+            <div class="am-form-group">
+                <!-- Event Type -->
+                <select name="event_type" data-am-selected>
+                    {% if not event_type or event_type == '' %}
+                        <option value="all" selected>All</option>
+                    {% else %}
+                        <option value="all">All</option>
+                    {% endif %}
+                    {% if event_type and event_type == 'food' %}
+                        <option value="food" selected>Free Food</option>
+                    {% else %}
+                        <option value="food">Free Food</option>
+                    {% endif %}
+                    {% if event_type and event_type == 'job' %}
+                        <option value="job" selected>Job Info Session</option>
+                    {% else %}
+                        <option value="job">Job Info Session</option>
+                    {% endif %}
+                </select>
             </div>
-        {% else %}
-            <p>No events are available.</p>
-        {% endif %}
+
+            <!-- Start Date -->
+            <div class="am-form-group am-form-icon">
+                <span class="am-icon-calendar"></span>
+                <input type="text" class="am-form-field" name="event_date" value="{{ event_date }}" placeholder="Start Date" data-am-datepicker/>
+            </div>
+            <div class="am-form-group">
+                <button class="am-btn am-btn-success am-fr">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Event list -->
+    {% if events %}
+        <div class="am-g">
+            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-10 am-u-sm-centered am-u-md-8 am-u-md-centered"
+                 data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
+                <ul class="event-list">
+                    {% for event in events %}
+                    <li class="event-item event-item-{{ event.status }}">
+                        <div class="event-image clearfix">
+                            <img src="{{ event.image_url }}" height="640" width="640" alt="" class="img">
+                        </div>
+
+                        <ul class="item-info">
+                            <li class="am-text-truncate">
+                                <span class="am-icon-clock-o"></span> {{ event.title }}
+                            </li>
+                            <li class="am-text-truncate">
+                                <span class="am-icon-map-marker"></span> {{ event.organizer }}
+                            </li>
+                            <li class="am-text-truncate">
+                                <span class="am-icon-clock-o"></span> {{ event.date }} ({{ event.duration }}Hours)
+                            </li>
+                            <li class="am-text-truncate">
+                                <span class="am-icon-clock-o"></span> {{ event.location }}
+                            </li>
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
+
 {% endblock %}
