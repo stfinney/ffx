@@ -65,3 +65,9 @@ def index(request, template='events.html',
         template = page_template
     return render_to_response(
         template, context, context_instance=RequestContext(request))
+
+def myinfo(request):
+    return render(request, 'myinfo.html',{})
+
+def signin(request):
+    return render(request, 'signin.html',{})
