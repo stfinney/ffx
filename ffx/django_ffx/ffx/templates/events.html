@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block content %}
     <!-- Latest Events -->
     {% if latest_events %}
         <div class="am-g">
-            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-10 am-u-sm-centered am-u-md-8 am-u-md-centered"
+            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-9 am-u-sm-centered am-u-md-9 am-u-md-centered"
                  data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
                 <ul class="am-slides">
                     {% for event in latest_events %}
@@ -22,11 +22,11 @@
 
     <!-- Search Area -->
     <div class="centered">
-        <form action="" class="am-form am-form-inline">
-            <div class="am-form-group">
+        <form action="" class="am-form am-g">
+            <div class="am-form-group am-u-sm-7 am-u-md-4">
                 <!-- Event Type -->
                 <select name="event_type" data-am-selected>
-                    {% if not event_type or event_type == '' %}
+                    {% if event_type and event_type == '' %}
                         <option value="all" selected>All</option>
                     {% else %}
                         <option value="all">All</option>
@@ -45,12 +45,15 @@
             </div>
 
             <!-- Start Date -->
-            <div class="am-form-group am-form-icon">
+            <div class="am-form-group am-form-icon am-u-sm-5 am-u-md-3">
                 <span class="am-icon-calendar"></span>
-                <input type="text" class="am-form-field" name="event_date" value="{{ event_date }}" placeholder="Start Date" data-am-datepicker/>
+                <input type="text" class="am-form-field" name="event_date" value="{{ event_date }}" placeholder="Start Date" readonly data-am-datepicker/>
             </div>
-            <div class="am-form-group">
-                <button class="am-btn am-btn-success am-fr">搜索</button>
+            <div class="am-form-group am-u-sm-6 am-u-md-3">
+                <button class="am-btn am-btn-success am-fr">Advanced Search</button>
+            </div>
+            <div class="am-form-group am-u-sm-6 am-u-md-2">
+                <button class="am-btn am-btn-success">Search</button>
             </div>
         </form>
     </div>
@@ -59,36 +62,17 @@
     {% if events %}
         <div class="am-g">
             <ul class="event-list">
-                {% for event in events %}
-                <li class="event-item event-item-{{ event.status }}">
-                        <div class="event-img clearfix">
-                                <img src="{{ event.image_url }}">
-                        </div>
-                        <hr>
-                        <div class="event-brief-info">
-                            <ul class="am-avg-sm-2">
-                                <li class="am-text-truncate">
-                                    <span class="am-icon-clock-o"></span> {{ event.title }}
-                                </li>
-                                <li class="am-text-truncate">
-                                    <span class="am-icon-map-marker"></span> {{ event.organizer }}
-                                </li>
-                                <li class="am-text-truncate">
-                                    <span class="am-icon-clock-o"></span> {{ event.date }} ({{ event.duration }}Hours)
-                                </li>
-                                <li class="am-text-truncate">
-                                    <span class="am-icon-clock-o"></span> {{ event.location }}
-                                </li>
-                            </ul>
-
-                            <a class="am-btn am-btn-primary" href="">Participate</a>
-                        </div>
-                    </li>
-                {% endfor %}
+    {% include page_template %}
             </ul>
         </div>
     {% else %}
         <p>No events are available.</p>
     {% endif %}
 
+{% endblock %}
+
+{% block js %}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'js/endless-pagination.js' %}"></script>
+    <script>$.endlessPaginate({paginateOnScroll: true});</script>
 {% endblock %}

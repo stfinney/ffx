@@ -1,39 +1,47 @@
-.fxx-slider {
-    margin-top: 15px;
-    margin-bottom: 15px;
+@import amazeui.css
+
+am-container {
+    margin-top: 10px;
 }
 
+.fxx-slider {
+    margin-top: 10px;
+}
 .centered {
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 10px;
+}
+.centered form div {
+    padding-left: 0;
 }
 
 .event-list .event-item{
 	border-bottom: 1px solid #E7E7E7;
 	display: -webkit-flex;
     display: flex;
+    margin-bottom: 5px;
 }
 .event-list ul{
 	padding: 0;
 	list-style-type: none;
 }
 
-.event-list .event-item .event-img{
+@mixin event-img-default {
     position: relative;
     -webkit-flex: initial;
     flex: initial;
-    width: 200px;
-    height: 150px;
     min-width: 50px;
+    overflow: auto;
 }
+
 .event-list .event-item .event-img img{
-    width: auto;
-    height: auto;
+    max-width:100%;
+    max-height:100%;
+    position: relative;
 }
 .event-list .event-item .event-brief-info{
     -webkit-flex: 3;
     flex: 3;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 footer p {
@@ -42,4 +50,33 @@ footer p {
       padding: 15px 0;
       text-align: center;
       background: #2d3e50;
+}
+
+
+@media screen and (max-width: 640px) {
+    .centered form div .select-width-auto {
+         width: 160px;
+    }
+    .event-list .event-item .event-brief-info ul {
+        font-size: 12px;
+    }
+    .event-list {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .event-list .event-item .event-img {
+        @include event-img-default;
+        width: 160px;
+        height: 120px;
+    }
+}
+@media screen and (min-width: 641px) {
+    .centered form div {
+        padding-left: 0;
+    }
+    .event-list .event-item .event-img {
+        @include event-img-default;
+        width: 300px;
+        height: 200px;
+    }
 }

@@ -1,0 +1,31 @@
+{% load endless %}
+{% paginate events %}
+{% for event in events %}
+<li class="event-item">
+        <div class="event-img clearfix">
+                <img src="{{ event.image_url }}">
+        </div>
+        <div class="event-brief-info">
+            <ul class="am-avg-sm-1 am-avg-md-2">
+                <li class="am-text-truncate">
+                    <span class="am-icon-navicon am-icon-fw"></span> {{ event.title }}
+                </li>
+                <li class="am-text-truncate">
+                    <span class="am-icon-user am-icon-fw"></span> {{ event.organizer }}
+                </li>
+                <li class="am-text-truncate">
+                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.date }} ({{ event.duration }}Hours)
+                </li>
+                <li class="am-text-truncate">
+                    <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location }}
+                </li>
+                <li class="am-text-truncate">
+                    <span class="am-icon-tags am-icon-fw"></span> {{ event.tags }}
+                </li>
+            </ul>
+
+            <a class="am-btn am-btn-primary am-btn-sm am-fr" href="">Participate</a>
+        </div>
+    </li>
+{% endfor %}
+{% show_more %}
