@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {% if latest_events %}
+            <div data-am-widget="slider" class="am-slider am-slider-b4" data-am-slider='{&quot;controlNav&quot;:false}'>
+                <ul class="am-slides am-g">
+                    {% for event in latest_events %}
+                        <li class="col-sm-10 col-sm-centered col-bg-1 col-bg-centered">
+                        <img src="{{ event.image_url }}">
+                        <div class="am-slider-desc">{{ event.desc }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+        {% else %}
+            <p>No events are available.</p>
+        {% endif %}
+{% endblock %}
