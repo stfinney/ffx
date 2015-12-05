@@ -64,7 +64,6 @@ def index(request, template='events.html',
     return render_to_response(
         template, context, context_instance=RequestContext(request))
 
-
 def show(request, event_id):
     event = {
         'id': 1,
@@ -88,3 +87,9 @@ def show(request, event_id):
         'tags': 'Free Food', 'participants_count': 3
     }
     return render(request, 'events_detail.html', {'event': event})
+
+def myinfo(request):
+    return render(request, 'myinfo.html',{})
+
+def signin(request):
+    return render(request, 'signin.html',{})
