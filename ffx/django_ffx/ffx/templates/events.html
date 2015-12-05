@@ -58,33 +58,34 @@
     <!-- Event list -->
     {% if events %}
         <div class="am-g">
-            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-10 am-u-sm-centered am-u-md-8 am-u-md-centered"
-                 data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
-                <ul class="event-list">
-                    {% for event in events %}
-                    <li class="event-item event-item-{{ event.status }}">
-                        <div class="event-image clearfix">
-                            <img src="{{ event.image_url }}" height="640" width="640" alt="" class="img">
+            <ul class="event-list">
+                {% for event in events %}
+                <li class="event-item event-item-{{ event.status }}">
+                        <div class="event-img clearfix">
+                                <img src="{{ event.image_url }}">
                         </div>
+                        <hr>
+                        <div class="event-brief-info">
+                            <ul class="am-avg-sm-2">
+                                <li class="am-text-truncate">
+                                    <span class="am-icon-clock-o"></span> {{ event.title }}
+                                </li>
+                                <li class="am-text-truncate">
+                                    <span class="am-icon-map-marker"></span> {{ event.organizer }}
+                                </li>
+                                <li class="am-text-truncate">
+                                    <span class="am-icon-clock-o"></span> {{ event.date }} ({{ event.duration }}Hours)
+                                </li>
+                                <li class="am-text-truncate">
+                                    <span class="am-icon-clock-o"></span> {{ event.location }}
+                                </li>
+                            </ul>
 
-                        <ul class="item-info">
-                            <li class="am-text-truncate">
-                                <span class="am-icon-clock-o"></span> {{ event.title }}
-                            </li>
-                            <li class="am-text-truncate">
-                                <span class="am-icon-map-marker"></span> {{ event.organizer }}
-                            </li>
-                            <li class="am-text-truncate">
-                                <span class="am-icon-clock-o"></span> {{ event.date }} ({{ event.duration }}Hours)
-                            </li>
-                            <li class="am-text-truncate">
-                                <span class="am-icon-clock-o"></span> {{ event.location }}
-                            </li>
-                        </ul>
+                            <a class="am-btn am-btn-primary" href="">Participate</a>
+                        </div>
                     </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                {% endfor %}
+            </ul>
         </div>
     {% else %}
         <p>No events are available.</p>
