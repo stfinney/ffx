@@ -19,12 +19,21 @@
                 <li class="am-text-truncate">
                     <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location }}
                 </li>
-                <li class="am-text-truncate">
+
+            </ul>
+            <ul class="am-avg-sm-1">
+                <li>
                     <span class="am-icon-tags am-icon-fw"></span> {{ event.tags }}
                 </li>
             </ul>
-
-            <a class="am-btn am-btn-primary am-btn-sm am-fr" href="">Participate</a>
+            <ul class="am-avg-sm-2">
+                <li>
+                    <span class="am-icon-users am-icon-fw"></span>{{ event.participants_count }} going
+                </li>
+                <li>
+                    <a class="am-btn am-btn-primary am-btn-xs" href="">Participate</a>
+                </li>
+            </ul>
         </div>
     </li>
 {% endfor %}

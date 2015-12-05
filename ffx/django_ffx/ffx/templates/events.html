@@ -50,7 +50,7 @@
                 <input type="text" class="am-form-field" name="event_date" value="{{ event_date }}" placeholder="Start Date" readonly data-am-datepicker/>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-3">
-                <button class="am-btn am-btn-success am-fr">Advanced Search</button>
+                <button type='button' class="am-btn am-btn-success am-fr" id="advanced-search-prompt" data-am-modal="{target: '#as-prompt'}">Advanced Search</button>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-2">
                 <button class="am-btn am-btn-success">Search</button>
@@ -69,10 +69,60 @@
         <p>No events are available.</p>
     {% endif %}
 
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="as-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">Advanced Search</div>
+            <div class="am-modal-bd">
+                <form action="" class="am-form am-form-horizontal">
+                    <div class="am-form-group-sm advanced-search-form-field">
+                        <select id="type" name="type" data-am-selected>
+                            <option value="all">All</option>
+                            <option value="food">Free Food</option>
+                            <option value="job">Job Info Session</option>
+                        </select>
+                    </div>
+                    <div class="am-form-group-sm advanced-search-form-field">
+                        <input type="text" class="am-form-field" id="date" name="date" readonly placeholder="Date" data-am-datepicker/>
+                    </div>
+                    <div class="am-form-group-sm advanced-search-form-field">
+                        <input type="text" class="am-form-field" id="title" name="title" placeholder="Title"/>
+                    </div>
+                    <div class="am-form-group-sm advanced-search-form-field">
+                        <input type="text" class="am-form-field" id="organizer" name="organizer" placeholder="Organizer"/>
+                    </div>
+                    <div class="am-form-group-sm advanced-search-form-field">
+                        <input type="text" class="am-form-field" id="address" name="address" placeholder="Address"/>
+                    </div>
+                </form>
+            </div>
+            <div class="am-modal-footer">
+              <span class="am-modal-btn" data-am-modal-cancel>Cancel</span>
+              <span class="am-modal-btn" data-am-modal-confirm>Search</span>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{% static 'js/endless-pagination.js' %}"></script>
-    <script>$.endlessPaginate({paginateOnScroll: true});</script>
+    <script>
+        $.endlessPaginate({paginateOnScroll: true});
+
+        <!--$(function() {-->
+            <!--$('#advanced-search-prompt').on('click', function() {-->
+                <!--$('#as-prompt').modal({-->
+                  <!--relatedTarget: this,-->
+                  <!--onConfirm: function(e) {-->
+                    <!--alert('你输入的是：' + e.data || '')-->
+                  <!--},-->
+                  <!--onCancel: function(e) {-->
+                    <!--alert('不想说!');-->
+                  <!--}-->
+                <!--});-->
+              <!--});-->
+        <!--});-->
+    </script>
+
 {% endblock %}
