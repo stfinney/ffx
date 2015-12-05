@@ -16,16 +16,24 @@
 </head>
 
 <body>
-<header class="am-topbar am-topbar-fixed-top" style="background: #0e90d2;">
+<header class="am-topbar am-topbar-fixed-top am-topbar-inverse">
   <div class="am-container">
     <h1 class="am-topbar-brand">
       <a href="#" style="color: #fff;">FFX</a>
     </h1>
+
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#collapse-head'}">
       <span class="am-sr-only"></span>
       <span class="am-icon-bars"></span></button>
     </button>
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
+       <div>
+         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-left">
+           <li class="am-active"><a href="#">LIST</a></li>
+           <li><a href="#">MYINFO</a></li>
+          </ul>
+       </div>
+
       <div class="am-topbar-right">
         <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> Sign Up</button>
       </div>
@@ -48,7 +56,7 @@
 
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/amazeui.min.js' %}">`</script>
+<script src="{% static 'js/amazeui.min.js' %}"></script>
 {% block js %}
 {% endblock %}
 
