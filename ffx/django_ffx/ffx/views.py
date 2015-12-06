@@ -75,6 +75,11 @@ def myinfo(request, template='myinfo.html',
     if not request.user.is_authenticated():
         return redirect('ffx:signin')
 
+    # my_events = Event.objects.filter(event_id__in=Registration.objects.filter(user=request.user.id).only(Registration.event))
+    # print '========'
+    # print my_events
+    # print '========'
+
     role = request.GET['role'] if request.GET['role'] else 'participant'
     # need to change to filter by role
     if role == 'participant':
@@ -82,6 +87,7 @@ def myinfo(request, template='myinfo.html',
             event_id__in=Registration.objects.filter(user=request.user.id).only(Registration.event),
             event_date__gte=datetime.date.today()
         ).order_by('event_date')
+        # print events, Registration.objects.filter(user=request.user.id)
     else:
         events = Event.objects.filter(organizer=request.user, event_date__gte=datetime.date.today()).order_by('event_date')
 

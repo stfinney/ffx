@@ -42,6 +42,15 @@ class Event(models.Model):
     def get_reg_count(self):
         return Registration.objects.filter(event=self.event_id).count()
 
+    def get_reg_user_ids(self):
+        return Registration.objects.filter(event=self.event_id).values_list('user_id', flat=True)
+
+    def latitude(self):
+        return self.map_marker.split(',')[0]
+
+    def longitude(self):
+        return self.map_marker.split(',')[1]
+
 
 class Registration(models.Model):
     user = models.ForeignKey(User)

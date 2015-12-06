@@ -38,7 +38,7 @@
                                 <span class="am-icon-users am-icon-fw"></span> {{ event.get_reg_count }} going
                             </li>
                             <li>
-                                {% if event.registered %}
+                                {% if user.id in event.get_reg_user_ids %}
                                     <a class="am-btn am-btn-danger am-btn-xs cancel-register-btn" data-id="{{ event.event_id }}">Cancel Register</a>
                                 {% else %}
                                     <a class="am-btn am-btn-primary am-btn-xs register-btn" data-id="{{ event.event_id }}">Register</a>
@@ -56,11 +56,35 @@
                 <p>{{ event.description }}</p>
             </div>
         </article>
+				<hr>
+				<article class="am-article event-location">
+						<div class="am-article-bd">
+								<h3>Location</h3>
+								<p>	<div id="map" style="height: 300px; width: 100%"></div></p>
+						</div>
+				</article>
 	</div>
 
 {% endblock %}
 
 {% block js %}
+		<script type="text/javascript">
+		var map;
+		function initMap() {
+			loc = {lat: {{ event.latitude }}, lng: {{ event.longitude }}};
+
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: loc,
+				zoom: 8
+			});
+
+			var marker = new google.maps.Marker({
+		    position: loc,
+		    map: map
+		  });
+		}
+		</script>
+		<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
     <script type="text/javascript">
         $(function() {
             $('#register-btn').on('click', function () {
