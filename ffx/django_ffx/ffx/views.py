@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
 from django.views import generic
-from forms import RegistrationUserForm, RegistrationProfileForm
+from forms import RegistrationUserForm, RegistrationProfileForm, CreateEventForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -185,6 +185,9 @@ def signup(request):
             profile = profileform.save(commit=False)
             profile.user = user
             profile.save()
+
+            # Login the user
+            login(request, user)
 
             return redirect('/events')
         else:
