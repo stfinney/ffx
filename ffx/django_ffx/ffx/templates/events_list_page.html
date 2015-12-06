@@ -1,7 +1,7 @@
 {% load endless %}
 {% paginate events %}
 {% for event in events %}
-<li class="event-item">
+    <li class="event-item">
         <div class="event-img clearfix">
             <a href="{% url 'ffx:event_detail' event.id %}"><img src="{{ event.image_url }}"></a>
         </div>

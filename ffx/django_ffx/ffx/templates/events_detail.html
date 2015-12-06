@@ -2,12 +2,12 @@
 {% load staticfiles %}
 {% block content %}
 	<div class="wrapper">
-		<h1>Event Detail</h1>
+        <h2>Event Detail</h2>
 		<div class="event-info am-g">
-			<div class="event-img clearfix am-u-sm-12 am-u-md-6">
+			<div class="event-img clearfix am-u-sm-10 am-u-sm-centered am-u-md-5 am-u-md-uncentered">
 				<img src="{{ event.image_url }}">
 			</div>
-			<div class="event-brief-info am-u-sm-12 am-u-md-6">
+			<div class="event-brief-info am-u-sm-10 am-u-sm-centered am-u-md-5 am-u-md-uncentered">
 				<ul class="am-avg-sm-1">
 					<li class="am-text-truncate">
                         <span class="am-icon-navicon am-icon-fw"></span> {{ event.title }}
@@ -26,19 +26,49 @@
                     </li>
                     <li>
                         <span class="am-icon-users am-icon-fw"></span> {{ event.participants_count }} going
-                        <a class="am-btn am-btn-primary am-btn-xs" href="">Participate</a>
+                        <a class="am-btn am-btn-primary am-btn-xs" id="register-btn" data-id="{{ event.id }}">Register</a>
                     </li>
 				</ul>
 			</div>
 		</div>
+        <hr>
         <article class="am-article event-description">
-            <div class="am-article-hd">
-                <h1 class="am-article-title">Description</h1>
-            </div>
-
             <div class="am-article-bd">
-                <p class="am-article-lead">{{ event.description }}</p>
+                <h3>Description</h3>
+                <p>{{ event.description }}</p>
             </div>
         </article>
 	</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function() {
+            $('#register-btn').on('click', function () {
+                var event_id = $(this).attr('data-id');
+                var register_url ="{% url 'ffx:event_register' 999 %}".replace (999, event_id);
+                var signin_url = "{% url 'ffx:signin' %}";
+                $.ajax({
+                    url: register_url,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        var return_code = data.return_code;
+                        if (return_code == 0) {
+                            window.location.reload();
+                        }
+                        else if(return_code == 100){
+                            window.location.replace(signin_url)
+                        }
+                        else {
+                            alert(data.return_desc);
+                        }
+                    },
+                    error: function(xhr,errmsg,err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

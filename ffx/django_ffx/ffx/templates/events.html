@@ -4,13 +4,13 @@
     <!-- Latest Events -->
     {% if latest_events %}
         <div class="am-g">
-            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-9 am-u-sm-centered am-u-md-9 am-u-md-centered"
+            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-9 am-u-sm-centered am-u-md-7 am-u-md-centered"
                  data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
                 <ul class="am-slides">
                     {% for event in latest_events %}
                     <li>
-                        <img src="{{ event.image_url }}">
-                        <div class="am-slider-desc">{{ event.title }}</div>
+                        <img class="am-img-thumbnail am-radius" src="{{ event.image_url }}">
+                        <div class="am-slider-desc"> {{ event.title }}</div>
                     </li>
                     {% endfor %}
                 </ul>
@@ -19,7 +19,7 @@
     {% else %}
         <p>No events are available.</p>
     {% endif %}
-
+    <hr>
     <!-- Search Area -->
     <div class="centered">
         <form action="" class="am-form am-g">
@@ -58,7 +58,7 @@
             </div>
         </form>
     </div>
-
+    <hr>
     <!-- Event list -->
     {% if events %}
         <div class="am-g">
@@ -117,8 +117,9 @@
 
         $(function() {
             $('#event-list').find('.register-btn').on('click', function () {
-                var id = $(this).attr('id');
-                var register_url = id + "/register";
+                var event_id = $(this).attr('id');
+                var register_url ="{% url 'ffx:event_register' 999 %}".replace (999, event_id);
+                var signin_url = "{% url 'ffx:signin' %}";
                 $.ajax({
                     url: register_url,
                     type: 'GET',
@@ -129,7 +130,10 @@
                             window.location.reload();
                         }
                         else if(return_code == 100){
-                            window.location.replace()
+                            window.location.replace(signin_url)
+                        }
+                        else {
+                            alert(data.return_desc);
                         }
                     },
                     error: function(xhr,errmsg,err) {

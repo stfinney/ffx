@@ -28,17 +28,17 @@
     </button>
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
       <div class="am-topbar-right">
-        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> Sign Up</button>
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span><a href="{% url 'ffx:signup' %}"> Sign Up</a></button>
       </div>
 
       <div class="am-topbar-right">
-        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> Sign In</button>
+        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span><a href="{% url 'ffx:signin' %}"> Sign In</a></button>
       </div>
 
       <div class="am-topbar-right">
          <ul class="am-nav am-nav-pills am-topbar-nav">
            <li><a style="color:#fff;"><b>Welcome Yuning</b></a></li>
-           <li><a href="#">MY INFO</a></li>
+           <li><a href="{% url 'ffx:myinfo' 'p' %}" style="color:#fff;"><b>MY INFO</b></a></li>
           </ul>
        </div>
     </div>
