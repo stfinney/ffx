@@ -4,7 +4,7 @@
     <li class="event-item">
         <div class="event-img clearfix">
             <a href="{% url 'ffx:event_detail' event.event_id %}">
-                <img src="{{ event.image_url }}">
+                <img src="{{ MEDIA_URL }}{{ event.image_url }}">
             </a>
         </div>
         <div class="event-brief-info">

@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -7,10 +9,12 @@ urlpatterns = [
 
     url(r'^events/(?P<pk>[0-9]+)/$', views.EventDetail.as_view(), name='event_detail'),
     url(r'^events/(?P<pk>[0-9]+)/register/$', views.register, name='event_register'),
+	url(r'^events/create$', views.createevent, name='event_create'),
     url(r'^events/(?P<event_id>[0-9]+)/cancel-register/$', views.cancel_register, name='event_cancel_register'),
 
     url(r'^user/info/(?P<user_id>\d+)/$', views.myinfo, name='myinfo'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^signup/$', views.signup, name='signup'),
 	url(r'^signout/$', views.signout, name='signout')
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
