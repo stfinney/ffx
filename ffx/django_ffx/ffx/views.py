@@ -158,13 +158,5 @@ def signout(request):
     logout(request)
     return redirect('/events')
 
-@login_required
-def createevent(request):
-    if request.method == 'POST':
-        form = CreateEventForm(request.post)
-        if form.is_valid():
-            event = form.save()
-            return redirect('ffx:event_detail', pk=event.id)
-    else:
-        form = CreateEventForm()
-        return render(request, 'createevent.html', {'form': form})
+def create(request):
+    return render(request, 'events_create.html',{})
