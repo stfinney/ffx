@@ -1,8 +1,9 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 # Create your views here.
 from django.template import RequestContext
 from forms import RegistrationUserForm, RegistrationProfileForm
+from django.contrib.auth import authenticate, login
 
 
 def index(request, template='events.html',
@@ -147,7 +148,19 @@ def myinfo_c(request, template='myinfo_c.html',
 
 
 def signin(request):
-    return render(request, 'signin.html',{})
+    if request.method == 'GET':
+        return render(request, 'signin.html',{})
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/events')
+        else:
+            return render(request, 'signin.html',{'error': 'Wrong username or password.'})
 
 def signup(request):
     if request.method == 'GET':
