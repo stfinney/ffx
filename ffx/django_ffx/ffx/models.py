@@ -22,7 +22,7 @@ class Event(models.Model):
     event_type = models.ManyToManyField(EventType)
     description = models.TextField('description of the event')
     event_date = models.DateTimeField()
-    event_duration = models.DurationField(blank=True, null=True, help_text='Length of event, leave blank for no set duration.')
+    event_endtime = models.TimeField(blank=True, null=True, help_text='Time event ends, leave blank for no set duration.')
     created_date = models.DateTimeField(default=datetime.now(),editable=False)
     address = models.CharField('address', max_length=128, default='', help_text='Can be as specific as a street address, or as broad as a city')
     map_marker = PlainLocationField(based_fields=[address], zoom=7, blank=True, help_text='Enter an address in the Address field to center the map on that location')

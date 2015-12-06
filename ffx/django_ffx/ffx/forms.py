@@ -18,7 +18,7 @@ class CreateEventForm(forms.ModelForm):
         model = Event
         fields = (
             'title','event_type', 'description',
-            'event_date', 'event_duration', 'address',
+            'event_date', 'event_endtime', 'address',
             'map_marker', 'location_text', 'capacity',
             'public', 'requires_major'
         )

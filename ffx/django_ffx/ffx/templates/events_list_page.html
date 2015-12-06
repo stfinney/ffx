@@ -16,11 +16,14 @@
                     <span class="am-icon-user am-icon-fw"></span> {{ event.organizer }}
                 </li>
                 <li class="am-text-truncate">
-                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} ({{ event.event_duration }}Hours)
+                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} {{ event.event_endtime }}
                 </li>
                 <li class="am-text-truncate">
-                    <span class="am-icon-map-marker am-icon-fw"></span> {{ event.address }} 
-                    <br/> {{ event.location_text }}
+                    {% if event.location_text %}
+                        <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location_text }}({{ event.address }})
+                    {% else %}
+                        <span class="am-icon-map-marker am-icon-fw"></span> {{ event.address }}
+                    {% endif %}
                 </li>
 
             </ul>

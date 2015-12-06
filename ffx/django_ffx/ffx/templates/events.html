@@ -49,7 +49,7 @@
             <!-- Start Date -->
             <div class="am-form-group am-form-icon am-u-sm-5 am-u-md-3">
                 <span class="am-icon-calendar"></span>
-                <input type="text" class="am-form-field" name="event_date" value="{{ request.GET.event_date }}" placeholder="Start Date" readonly data-am-datepicker/>
+                <input type="text" class="am-form-field" name="event_date" id="my-datepicker" value="{{ request.GET.event_date }}" placeholder="Date" readonly data-am-datepicker/>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-3">
                 <!--data-am-modal="{target: '#as-prompt'}"-->
@@ -88,8 +88,11 @@
 {% block js %}
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script src="{% static 'js/endless-pagination.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
     <script type="text/javascript">
         $.endlessPaginate({paginateOnScroll: true});
+        $('#my-datepicker').datepicker({locale: 'en_US'});
+        $('#date').datepicker({locale: 'en_US'});
 
         var index_url = "{% url 'ffx:event_index' %}";
         $(function() {
