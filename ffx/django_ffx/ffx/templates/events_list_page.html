@@ -3,32 +3,33 @@
 {% for event in events %}
     <li class="event-item">
         <div class="event-img clearfix">
-            <a href="{% url 'ffx:event_detail' event.id %}"><img src="{{ event.image_url }}"></a>
+            <a href="{% url 'ffx:event_detail' event.event_id %}"><img src="{{ event.image_url }}"></a>
         </div>
         <div class="event-brief-info">
             <ul class="am-avg-sm-1 am-avg-md-2">
                 <li class="am-text-truncate">
-                    <span class="am-icon-navicon am-icon-fw"></span> {{ event.title }}
+                    <span class="am-icon-navicon am-icon-fw"></span> <a href="{% url 'ffx:event_detail' event.event_id %}">{{ event.title }}</a>
                 </li>
                 <li class="am-text-truncate">
                     <span class="am-icon-user am-icon-fw"></span> {{ event.organizer }}
                 </li>
                 <li class="am-text-truncate">
-                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.date }} ({{ event.duration }}Hours)
+                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} ({{ event.event_duration }}Hours)
                 </li>
                 <li class="am-text-truncate">
-                    <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location }}
+                    <span class="am-icon-map-marker am-icon-fw"></span> {{ event.address }} 
+                    <br/> {{ event.location_text }}
                 </li>
 
             </ul>
             <ul class="am-avg-sm-1">
                 <li>
-                    <span class="am-icon-tags am-icon-fw"></span> {{ event.tags }}
+                    <span class="am-icon-tags am-icon-fw"></span> {{ event.get_event_type }}
                 </li>
             </ul>
             <ul class="am-avg-sm-2">
                 <li>
-                    <span class="am-icon-users am-icon-fw"></span> {{ event.participants_count }} going
+                    <span class="am-icon-users am-icon-fw"></span> {{ event.get_reg_count }} going
                 </li>
                 <li>
                     <a class="am-btn am-btn-primary am-btn-xs register-btn" id="{{ event.id }}">Register</a>
