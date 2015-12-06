@@ -137,6 +137,7 @@ def myinfo(request, template='myinfo.html',
     return render_to_response(
         template, context, context_instance=RequestContext(request))
 
+@login_required
 def myinfo_c(request, template='myinfo_c.html',
           page_template='events_list_page.html'):
     context = {
