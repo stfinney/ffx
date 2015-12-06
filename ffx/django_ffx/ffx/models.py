@@ -58,7 +58,7 @@ class Registration(models.Model):
     reg_date = models.DateTimeField(default=datetime.now())
 
     def __unicode__(self):
-        return self.user.username.encode('utf-8') + ' registered for ' + self.event.__unicode__()
+        return self.user.__unicode__() + ' registered for ' + self.event.__unicode__()
 
 
 # Used to extend properties of the User model, as per recommendation from the authors
