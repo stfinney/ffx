@@ -1,7 +1,8 @@
 from django.http import JsonResponse
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 # Create your views here.
 from django.template import RequestContext
+from forms import RegistrationUserForm, RegistrationProfileForm
 
 
 def index(request, template='events.html',
@@ -136,4 +137,19 @@ def signin(request):
     return render(request, 'signin.html',{})
 
 def reg(request):
-    return render(request, 'register.html',{})
+    if request.method == 'GET':
+        return render(request, 'register.html',{})
+    elif request.method == 'POST':
+        userform = RegistrationUserForm(data=request.POST)
+        profileform = RegistrationProfileForm(data=request.POST)
+
+        if userform.is_valid() and profileform.is_valid():
+            # Save user and profile
+            user = userform.save()
+            profile = profileform.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            return redirect('/events')
+        else:
+            return render(request, 'register.html', {'userform': userform, 'profileform': profileform})

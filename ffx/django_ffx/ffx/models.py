@@ -38,3 +38,10 @@ class Registration(models.Model):
     event = models.ForeignKey(Event)
     reg_date = models.DateTimeField(default=datetime.now())
     # Add any extra relationship attributes here
+
+# Used to extend properties of the User model, as per recommendation from the authors
+class Profile(models.Model):
+    user = models.ForeignKey(User)
+    major = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+    phone = models.CharField(max_length=200)
