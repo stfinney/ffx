@@ -166,7 +166,7 @@ def signin(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/events')
+            return redirect('ffx:event_index')
         else:
             return render(request, 'signin.html',{'error': 'Wrong username or password.'})
 
@@ -189,10 +189,22 @@ def signup(request):
             # Login the user
             login(request, user)
 
-            return redirect('/events')
+            # Redirect to events page
+            return redirect('ffx:event_index')
         else:
             return render(request, 'signup.html', {'userform': userform, 'profileform': profileform})
 
 def signout(request):
     logout(request)
     return redirect('/events')
+
+@login_required
+def createevent(request):
+    if request.method == 'POST':
+        form = CreateEventForm(request.post)
+        if form.is_valid():
+            event = form.save()
+            return redirect('ffx:event_detail', pk=event.id)
+    else:
+        form = CreateEventForm()
+        return render(request, 'createevent.html', {'form': form})
