@@ -7,6 +7,7 @@ from django.views import generic
 from forms import RegistrationUserForm, RegistrationProfileForm, CreateEventForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from .models import Event, EventType, Registration, Profile
 
@@ -15,37 +16,34 @@ def index(request, template='events.html', page_template='events_list_page.html'
     event_types = EventType.objects.order_by('name')
 
     if request.method == 'GET':
-        if 'type' in request.GET:
-            r_type = request.GET['type']
-        else:
-            r_type = 'all'
-
         if 'event_date' in request.GET and request.GET['event_date'] != '':
             tmp = request.GET['event_date'].split("-")
             r_event_date = datetime.date(int(tmp[0]),int(tmp[1]),int(tmp[2]))
+            dateQ = Q(  event_date__year=r_event_date.year, 
+                        event_date__month=r_event_date.month, 
+                        event_date__day=r_event_date.day)
         else: 
-            r_event_date = 'all'
+            dateQ = Q(event_date__gte=datetime.date.today())
 
-        if r_event_date == 'all' and r_type == 'all':
-            events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')
-        elif r_event_date == 'all':
-            events = Event.objects.filter(
-                event_date__gte=datetime.date.today(),
-                event_type__name__contains=r_type
-            ).order_by('event_date')
-        elif r_type == 'all':
-            events = Event.objects.filter(
-                event_date__year=r_event_date.year, 
-                event_date__month=r_event_date.month, 
-                event_date__day=r_event_date.day
-            ).order_by('event_date')
-        else:
-            events = Event.objects.filter(
-                event_date__year=r_event_date.year, 
-                event_date__month=r_event_date.month, 
-                event_date__day=r_event_date.day,
-                event_type__name__contains=r_type
-            ).order_by('event_date')
+        mainQ = dateQ
+
+        if 'type' in request.GET and request.GET['type'] != '' and request.GET['type'] != 'all':
+            r_type = request.GET['type']
+            typeQ = Q(event_type__name__contains=r_type)
+            mainQ = mainQ & typeQ
+
+        if 'title' in request.GET and request.GET['title'] != '':
+            r_title = request.GET['title']
+            titleQ = Q(title__contains=r_title)
+            mainQ = mainQ & titleQ
+
+        if 'organizer' in request.GET and request.GET['organizer'] != '':
+            r_org = request.GET['organizer']
+            organizerQ = Q(organizer__name__contains=r_org)
+            mainQ = mainQ & organizerQ
+
+        events = Event.objects.filter(mainQ).order_by('event_date')
+        print mainQ
 
     context = {
         'latest_events': latest_events,
@@ -54,9 +52,19 @@ def index(request, template='events.html', page_template='events_list_page.html'
         'page_template': page_template,
     }
 
+
+    my_events = Event.objects.filter(
+        event_id__in=Registration.objects.filter(user = request.user.id).only(Registration.event)
+    )
+    #reg = Registration.objects.filter(user = request.user.id).only(Registration.event)
+    print '--------'
+    print my_events
+    print '--------'
+
     if request.is_ajax():
         template = page_template
     return render_to_response(template, context, context_instance=RequestContext(request))
+
 
 class EventDetail(generic.DetailView):
     model = Event
