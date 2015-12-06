@@ -42,7 +42,7 @@
                 </li>
                 <li>
                     {% if event.registered %}
-                        <a class="am-btn am-btn-primary am-btn-xs cancel-register-btn" data-id="{{ event.event_id }}">Cancel Register</a>
+                        <a class="am-btn am-btn-danger am-btn-xs cancel-register-btn" data-id="{{ event.event_id }}">Cancel Register</a>
                     {% else %}
                         <a class="am-btn am-btn-primary am-btn-xs register-btn" data-id="{{ event.event_id }}">Register</a>
                     {% endif %}

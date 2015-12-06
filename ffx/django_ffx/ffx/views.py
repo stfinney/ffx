@@ -71,31 +71,28 @@ def cancel_register(request, event_id):
 
 @login_required
 def myinfo(request, template='myinfo.html',
-          page_template='events_list_page.html',type='p'):
-    if type == 'p':
-        context = {
-            'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
-                        'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
-                        'tags': 'Free Food, Job Info Session', 'participants_count': 10},
-                       {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
-                        'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
-                        'tags': 'Free Food', 'participants_count': 100}],
-            'page_template': page_template, 'type': type
-        }
+          page_template='events_list_page.html'):
+    if not request.user.is_authenticated():
+        return redirect('ffx:signin')
+
+    role = request.GET['role'] if request.GET['role'] else 'participant'
+    # need to change to filter by role
+    if role == 'participant':
+        events = Event.objects.filter(
+            event_id__in=Registration.objects.filter(user=request.user.id).only(Registration.event),
+            event_date__gte=datetime.date.today()
+        ).order_by('event_date')
     else:
-        context = {
-            'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_2.jpg',
-                        'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
-                        'tags': 'Free Food, Job Info Session', 'participants_count': 10},
-                       {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_1.jpg',
-                        'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
-                        'tags': 'Free Food', 'participants_count': 100}],
-            'page_template': page_template, 'type': type
-        }
+        events = Event.objects.filter(organizer=request.user, event_date__gte=datetime.date.today()).order_by('event_date')
+
+    context = {
+        'events': events, 'page_template': page_template, 'role': role
+    }
     if request.is_ajax():
         template = page_template
     return render_to_response(
         template, context, context_instance=RequestContext(request))
+
 
 @login_required
 def myinfo_c(request, template='myinfo_c.html',
