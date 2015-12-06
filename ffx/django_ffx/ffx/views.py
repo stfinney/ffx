@@ -189,6 +189,7 @@ def signup(request):
             profile.save()
 
             # Login the user
+            user = authenticate(username=user.username, password=request.POST['password'])
             login(request, user)
 
             # Redirect to events page
