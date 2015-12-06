@@ -11,12 +11,15 @@ from django.contrib.auth.decorators import login_required
 from .models import Event, EventType, Registration, Profile
 
 def index(request, template='events.html', page_template='events_list_page.html'):
-    latest_events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('-event_date')[:5]
-    events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('-event_date')
+    latest_events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')[:5]
+    events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')
+
+    event_types = EventType.objects.order_by('name')
 
     context = {
         'latest_events': latest_events,
         'events': events,
+        'event_types': event_types,
         'page_template': page_template,
     }
 
