@@ -17,7 +17,7 @@ class EventType(models.Model):
 
 
 class Event(models.Model):
-    event_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    event_id = models.AutoField(primary_key=True, editable=False)
     title = models.CharField(max_length=200)
     event_type = models.ManyToManyField(EventType)
     description = models.TextField('description of the event')
@@ -34,6 +34,13 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.title.encode('utf-8')
+
+    def get_event_type(self):
+        return ", ".join([e.name for e in self.event_type.all()])
+
+    def get_reg_count(self):
+        return Registration.objects.filter(event=self.event_id).count()
+
 
 
 class Registration(models.Model):

@@ -1,17 +1,21 @@
+import datetime
+
 from django.http import JsonResponse
 from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
+from django.views import generic
 from forms import RegistrationUserForm, RegistrationProfileForm
 
 from .models import Event, EventType, Registration, Profile
 
 def index(request, template='events.html', page_template='events_list_page.html'):
-    
+    latest_events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('-event_date')[:5]
 
 
     context = {
-        'latest_events': [{'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg'},
-                          {'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg'}],
+        'latest_events': latest_events,
+        #'latest_events': [{'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg'},
+        #                  {'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg'}],
         'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
                     'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
                     'tags': 'Free Food, Job Info Session', 'participants_count': 10},
@@ -56,13 +60,17 @@ def index(request, template='events.html', page_template='events_list_page.html'
                     'tags': 'Free Food', 'participants_count': 3}],
         'page_template': page_template,
     }
+
     if request.is_ajax():
         template = page_template
-    return render_to_response(
-        template, context, context_instance=RequestContext(request))
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
-def show(request, event_id):
-  event = Event.objects.filter(event_id=event_id)
+class EventDetail(generic.DetailView):
+    model = Event
+    template_name = "events_detail.html"
+
+    def get_queryset(self):
+        return Event.objects
 
     #event = {
     #    'id': 1,
@@ -85,7 +93,7 @@ def show(request, event_id):
     #    'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
     #    'tags': 'Free Food', 'participants_count': 3
     #}
-  return render(request, 'events_detail.html', {'event': event})
+    #return render(request, 'events_detail.html', {'event': event})
 
 
 def register(request, event_id):
