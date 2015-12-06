@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
 from django.views import generic
-from forms import RegistrationUserForm, RegistrationProfileForm
+from forms import RegistrationUserForm, RegistrationProfileForm, CreateEventForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -109,7 +109,7 @@ def signin(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/events')
+            return redirect('ffx:event_index')
         else:
             return render(request, 'signin.html',{'error': 'Wrong username or password.'})
 
@@ -129,10 +129,25 @@ def signup(request):
             profile.user = user
             profile.save()
 
-            return redirect('/events')
+            # Login the user
+            login(request, user)
+
+            # Redirect to events page
+            return redirect('ffx:event_index')
         else:
             return render(request, 'signup.html', {'userform': userform, 'profileform': profileform})
 
 def signout(request):
     logout(request)
     return redirect('/events')
+
+@login_required
+def createevent(request):
+    if request.method == 'POST':
+        form = CreateEventForm(request.post)
+        if form.is_valid():
+            event = form.save()
+            return redirect('ffx:event_detail', pk=event.id)
+    else:
+        form = CreateEventForm()
+        return render(request, 'createevent.html', {'form': form})

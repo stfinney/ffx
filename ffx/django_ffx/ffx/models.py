@@ -11,7 +11,7 @@ from location_field.models.plain import PlainLocationField
 class EventType(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField('brief description of the event type')
-    
+
     def __unicode__(self):
         return self.name.encode('utf-8')
 
@@ -41,7 +41,6 @@ class Event(models.Model):
 
     def get_reg_count(self):
         return Registration.objects.filter(event=self.event_id).count()
-
 
 
 class Registration(models.Model):
