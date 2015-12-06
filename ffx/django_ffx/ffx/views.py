@@ -19,10 +19,10 @@ def index(request, template='events.html', page_template='events_list_page.html'
         if 'event_date' in request.GET and request.GET['event_date'] != '':
             tmp = request.GET['event_date'].split("-")
             r_event_date = datetime.date(int(tmp[0]),int(tmp[1]),int(tmp[2]))
-            dateQ = Q(  event_date__year=r_event_date.year, 
-                        event_date__month=r_event_date.month, 
+            dateQ = Q(  event_date__year=r_event_date.year,
+                        event_date__month=r_event_date.month,
                         event_date__day=r_event_date.day)
-        else: 
+        else:
             dateQ = Q(event_date__gte=datetime.date.today())
 
         mainQ = dateQ
@@ -123,7 +123,7 @@ def myinfo(request, template='myinfo.html',
     # need to change to filter by role
     if role == 'participant':
         events = Event.objects.filter(
-            event_id__in=Registration.objects.filter(user=request.user.id).only(Registration.event),
+            event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
             event_date__gte=datetime.date.today()
         ).order_by('event_date')
         # print events, Registration.objects.filter(user=request.user.id)
