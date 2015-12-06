@@ -1,4 +1,4 @@
-import datetime
+import datetime, time
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response, redirect
@@ -12,9 +12,40 @@ from .models import Event, EventType, Registration, Profile
 
 def index(request, template='events.html', page_template='events_list_page.html'):
     latest_events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')[:5]
-    events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')
-
     event_types = EventType.objects.order_by('name')
+
+    if request.method == 'GET':
+        if 'type' in request.GET:
+            r_type = request.GET['type']
+        else:
+            r_type = 'all'
+
+        if 'event_date' in request.GET and request.GET['event_date'] != '':
+            tmp = request.GET['event_date'].split("-")
+            r_event_date = datetime.date(int(tmp[0]),int(tmp[1]),int(tmp[2]))
+        else: 
+            r_event_date = 'all'
+
+        if r_event_date == 'all' and r_type == 'all':
+            events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')
+        elif r_event_date == 'all':
+            events = Event.objects.filter(
+                event_date__gte=datetime.date.today(),
+                event_type__name__contains=r_type
+            ).order_by('event_date')
+        elif r_type == 'all':
+            events = Event.objects.filter(
+                event_date__year=r_event_date.year, 
+                event_date__month=r_event_date.month, 
+                event_date__day=r_event_date.day
+            ).order_by('event_date')
+        else:
+            events = Event.objects.filter(
+                event_date__year=r_event_date.year, 
+                event_date__month=r_event_date.month, 
+                event_date__day=r_event_date.day,
+                event_type__name__contains=r_type
+            ).order_by('event_date')
 
     context = {
         'latest_events': latest_events,
