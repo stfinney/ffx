@@ -1,7 +1,7 @@
 import datetime, time
 
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views import generic
 from forms import RegistrationUserForm, RegistrationProfileForm, CreateEventForm
@@ -66,23 +66,37 @@ class EventDetail(generic.DetailView):
         return Event.objects
 
 
-def register(request, event_id):
-    # check whether user login
-    event_id = int(event_id)
-    if event_id % 3 == 0:
-        return JsonResponse({'return_code': 0, 'return_desc': 'success'})
-    elif event_id % 3 == 1:
-        return JsonResponse({'return_code': 100, 'return_desc': "User doesn't login yet"})
-    else:
+def register(request, pk):
+    # Check if user is logged in
+    if not request.user.is_authenticated():
+        return JsonResponse({'return_code': 100, 'return_desc': "User not logged in yet"})
+
+    # Check if the user is already registered for the event
+    event = get_object_or_404(Event, pk=pk)
+    registered = Registration.objects.filter(user=request.user, event=event).exists()
+    if registered:
         return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
+
+    # Register the user for the event
+    registration = Registration(user=request.user, event=event)
+    registration.save()
+    return JsonResponse({'return_code': 0, 'return_desc': 'success'})
 
 
 def cancel_register(request, event_id):
-    # check whether user login
-    event_id = int(event_id)
-    if event_id % 2 == 0:
+    # Check if user is logged in
+    if not request.user.is_authenticated():
+        return JsonResponse({'return_code': 100, 'return_desc': "User not logged in yet"})
+
+    # Check if the user is already registered for the event
+    event = get_object_or_404(Event, pk=event_id)
+    try:
+        # Unregister the user from the event
+        registration = Registration.objects.get(user=request.user, event=event)
+        registration.delete()
+
         return JsonResponse({'return_code': 0, 'return_desc': 'success'})
-    else:
+    except Registration.DoesNotExist:
         return JsonResponse({'return_code': 200, 'return_desc': "User hasn't registered this event yet"})
 
 

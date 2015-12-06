@@ -16,11 +16,15 @@
                     <span class="am-icon-user am-icon-fw"></span> {{ event.organizer }}
                 </li>
                 <li class="am-text-truncate">
-                    <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} {{ event.event_endtime }}
+                    {% if event.event_endtime %}
+                        <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} - {{ event.event_endtime }}
+                    {% else %}
+                        <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }}
+                    {% endif %}
                 </li>
                 <li class="am-text-truncate">
                     {% if event.location_text %}
-                        <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location_text }}({{ event.address }})
+                        <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location_text }} ({{ event.address }})
                     {% else %}
                         <span class="am-icon-map-marker am-icon-fw"></span> {{ event.address }}
                     {% endif %}
@@ -37,8 +41,8 @@
                     <span class="am-icon-users am-icon-fw"></span> {{ event.get_reg_count }} going
                 </li>
                 <li>
-                    {% if event.registered %}
-                        <a class="am-btn am-btn-primary am-btn-xs cancel-register-btn" data-id="{{ event.event_id }}">Register</a>
+                    {% if user.id in event.get_reg_user_ids %}
+                        <a class="am-btn am-btn-primary am-btn-xs cancel-register-btn" data-id="{{ event.event_id }}">Cancel Register</a>
                     {% else %}
                         <a class="am-btn am-btn-primary am-btn-xs register-btn" data-id="{{ event.event_id }}">Register</a>
                     {% endif %}
@@ -48,5 +52,3 @@
     </li>
 {% endfor %}
 {% show_more %}
-
-
