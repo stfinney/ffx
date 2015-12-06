@@ -3,10 +3,12 @@
 {% for event in events %}
     <li class="event-item">
         <div class="event-img clearfix">
-            <a href="{% url 'ffx:event_detail' event.id %}"><img src="{{ event.image_url }}"></a>
+            <a href="{% url 'ffx:event_detail' event.id %}">
+                <img class="am-radius"src="{{ event.image_url }}">
+            </a>
         </div>
         <div class="event-brief-info">
-            <ul class="am-avg-sm-1 am-avg-md-2">
+            <ul class="am-avg-sm-1">
                 <li class="am-text-truncate">
                     <span class="am-icon-navicon am-icon-fw"></span> {{ event.title }}
                 </li>
@@ -31,10 +33,16 @@
                     <span class="am-icon-users am-icon-fw"></span> {{ event.participants_count }} going
                 </li>
                 <li>
-                    <a class="am-btn am-btn-primary am-btn-xs register-btn" id="{{ event.id }}">Register</a>
+                    {% if event.registered %}
+                        <a class="am-btn am-btn-primary am-btn-xs cancel-register-btn" data-id="{{ event.id }}">Register</a>
+                    {% else %}
+                        <a class="am-btn am-btn-primary am-btn-xs register-btn" data-id="{{ event.id }}">Register</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
     </li>
 {% endfor %}
 {% show_more %}
+
+

@@ -14,14 +14,14 @@ def index(request, template='events.html',
     # return HttpResponse(template.render(context))
 
     context = {
-        'latest_events': [{'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg'},
-                          {'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg'}],
+        'latest_events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg'},
+                          {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg'}],
         'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
                     'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
                     'tags': 'Free Food, Job Info Session', 'participants_count': 10},
                    {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
                     'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
-                    'tags': 'Free Food', 'participants_count': 100},
+                    'tags': 'Free Food', 'participants_count': 100, 'registered': True},
                    {'id': 3, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
                     'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
                     'tags': 'Free Food, Job Info Session', 'participants_count': 2},
@@ -99,6 +99,15 @@ def register(request, event_id):
         return JsonResponse({'return_code': 100, 'return_desc': "User doesn't login yet"})
     else:
         return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
+
+
+def cancel_register(request, event_id):
+    # check whether user login
+    event_id = int(event_id)
+    if event_id % 2 == 0:
+        return JsonResponse({'return_code': 0, 'return_desc': 'success'})
+    else:
+        return JsonResponse({'return_code': 200, 'return_desc': "User hasn't registered this event yet"})
 
 
 def myinfo(request, template='myinfo.html',

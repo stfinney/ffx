@@ -3,14 +3,16 @@
 {% block content %}
     <!-- Latest Events -->
     {% if latest_events %}
-        <div class="am-g">
-            <div data-am-widget="slider" class="fxx-slider am-slider am-slider-c3 am-u-sm-9 am-u-sm-centered am-u-md-7 am-u-md-centered"
+        <div class="am-g fxx-slider">
+            <div data-am-widget="slider" class="am-slider am-slider-c3 am-u-sm-9 am-u-sm-centered am-u-md-7 am-u-md-centered"
                  data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;slideshow&quot;:false}'>
                 <ul class="am-slides">
                     {% for event in latest_events %}
                     <li>
-                        <img class="am-img-thumbnail am-radius" src="{{ event.image_url }}">
-                        <div class="am-slider-desc"> {{ event.title }}</div>
+                        <a href="{% url 'ffx:event_detail' event.id %}">
+                            <img class="am-img-thumbnail am-radius" src="{{ event.image_url }}">
+                            <div class="am-slider-desc"> {{ event.title }}</div>
+                        </a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -51,25 +53,15 @@
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-3">
                 <!--data-am-modal="{target: '#as-prompt'}"-->
-                <button type='button' class="am-btn am-btn-success am-fr" id="advanced-search-prompt">Advanced Search</button>
+                <button type='button' class="am-btn am-btn-success" id="advanced-search-prompt">Advanced Search</button>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-2">
                 <button class="am-btn am-btn-success">Search</button>
             </div>
         </form>
     </div>
-    <hr>
     <!-- Event list -->
-    {% if events %}
-        <div class="am-g">
-            <ul class="event-list" id="event-list">
-                {% include page_template %}
-            </ul>
-        </div>
-    {% else %}
-        <p>No events are available.</p>
-    {% endif %}
-
+    {% include 'events_list.html' %}
 
     <div class="am-modal am-modal-prompt" tabindex="-1" id="as-prompt">
         <div class="am-modal-dialog">
@@ -115,33 +107,7 @@
               });
         });
 
-        $(function() {
-            $('#event-list').find('.register-btn').on('click', function () {
-                var event_id = $(this).attr('id');
-                var register_url ="{% url 'ffx:event_register' 999 %}".replace (999, event_id);
-                var signin_url = "{% url 'ffx:signin' %}";
-                $.ajax({
-                    url: register_url,
-                    type: 'GET',
-                    dataType: 'JSON',
-                    success: function (data) {
-                        var return_code = data.return_code;
-                        if (return_code == 0) {
-                            window.location.reload();
-                        }
-                        else if(return_code == 100){
-                            window.location.replace(signin_url)
-                        }
-                        else {
-                            alert(data.return_desc);
-                        }
-                    },
-                    error: function(xhr,errmsg,err) {
-                        console.log(xhr.status + ": " + xhr.responseText);
-                    }
-                });
-            });
-        });
+
     </script>
 
 {% endblock %}
