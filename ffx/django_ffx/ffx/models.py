@@ -31,6 +31,7 @@ class Event(models.Model):
     capacity = models.PositiveIntegerField(help_text='Capacity must be positive, or enter 0 for no limit.', default=0, blank=True)
     public = models.BooleanField(default=True, help_text='If unchecked, event will only be visible to registered users')
     requires_major = models.CharField(max_length=100, help_text='Major required for attendance',blank=True)
+    image_url = models.ImageField(upload_to='events',blank=True, help_text='Upload an image that will appear with your event in the listing')
 
     def __unicode__(self):
         return self.title.encode('utf-8')
