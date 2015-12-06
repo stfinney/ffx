@@ -131,7 +131,6 @@ def myinfo_c(request, template='myinfo_c.html',
         template = page_template
     return render_to_response(
         template, context, context_instance=RequestContext(request))
->>>>>>> 953ff9c77ef0fd0b1cd2709dbd58427a93493ab3
 
 def signin(request):
     return render(request, 'signin.html',{})
