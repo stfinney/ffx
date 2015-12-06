@@ -122,3 +122,6 @@ def myinfo_c(request, template='myinfo_c.html',
 
 def signin(request):
     return render(request, 'signin.html',{})
+
+def reg(request):
+    return render(request, 'register.html',{})
