@@ -9,10 +9,10 @@
                 <ul class="am-slides">
                     {% for event in latest_events %}
                     <li>
-                        <a href="{% url 'ffx:event_detail' event.id %}">
-                            <img class="am-img-thumbnail am-radius" src="{{ event.image_url }}">
-                            <div class="am-slider-desc"> {{ event.title }}</div>
-                        </a>
+                        <img class="am-img-thumbnail am-radius" src="{{ event.image_url }}">
+                        <div class="am-slider-desc">
+                            <a href="{% url 'ffx:event_detail' event.event_id %}"> {{ event.title }} </a>
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>

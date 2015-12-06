@@ -1,3 +1,4 @@
+# silly mac ds_store files
 .DS_Store
 
 # Elastic Beanstalk Files
@@ -7,3 +8,6 @@
 
 # Python compiled files
 *.pyc
+
+# migration files for django
+migrations
