@@ -11,12 +11,15 @@ from location_field.models.plain import PlainLocationField
 class EventType(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField('brief description of the event type')
-
+    
+    def __unicode__(self):
+        return self.name.encode('utf-8')
 
 
 class Event(models.Model):
     event_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
+    event_type = models.ManyToManyField(EventType)
     description = models.TextField('description of the event')
     event_date = models.DateTimeField()
     event_duration = models.DurationField(blank=True, null=True, help_text='Length of event, leave blank for no set duration.')
@@ -24,7 +27,7 @@ class Event(models.Model):
     address = models.CharField('address', max_length=128, default='', help_text='Can be as specific as a street address, or as broad as a city')
     map_marker = PlainLocationField(based_fields=[address], zoom=7, blank=True, help_text='Enter an address in the Address field to center the map on that location')
     location_text = models.TextField('additional location details', max_length=256, blank=True, help_text='Useful extra description of the location, if needed. Ex: in front of the Starbucks, or in Room 415 of Building 3A')
-    organizer = models.ForeignKey(User,editable=False)
+    organizer = models.ForeignKey(User)
     capacity = models.PositiveIntegerField(help_text='Capacity must be positive, or enter 0 for no limit.', default=0, blank=True)
     public = models.BooleanField(default=True, help_text='If unchecked, event will only be visible to registered users')
     requires_major = models.CharField(max_length=100, help_text='Major required for attendance',blank=True)
@@ -39,9 +42,13 @@ class Registration(models.Model):
     reg_date = models.DateTimeField(default=datetime.now())
     # Add any extra relationship attributes here
 
+
 # Used to extend properties of the User model, as per recommendation from the authors
 class Profile(models.Model):
     user = models.ForeignKey(User)
     major = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return "%s's profile" % self.user
