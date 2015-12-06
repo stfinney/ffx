@@ -37,7 +37,7 @@ $(function() {
             relatedTarget: this,
             onConfirm: function() {
                 var root_url = window.location.origin ? window.location.origin+'/' : window.location.protocol+'/'+window.location.host+'/';
-                var event_id = $(this).attr('data-id');
+                var event_id = $(this.relatedTarget).data('id');
                 var cancel_register_url = root_url + "events/" + event_id + "/cancel-register";
                 $.ajax({
                     url: cancel_register_url,
