@@ -16,16 +16,17 @@
                         <span class="am-icon-user am-icon-fw"></span> {{ event.organizer }}
                     </li>
                     <li class="am-text-truncate">
-                        <span class="am-icon-clock-o am-icon-fw"></span> {{ event.date }} ({{ event.duration }}Hours)
+                        <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} ({{ event.event_duration }}Hours)
                     </li>
                     <li class="am-text-truncate">
-                        <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location }}
+                        <span class="am-icon-map-marker am-icon-fw"></span> <span>{{ event.address }}
+                        <br/> {{ event.location_text }}f
                     </li>
                     <li>
-                        <span class="am-icon-tags am-icon-fw"></span> {{ event.tags }}
+                        <span class="am-icon-tags am-icon-fw"></span> {{ event.get_event_type }}
                     </li>
                     <li>
-                        <span class="am-icon-users am-icon-fw"></span> {{ event.participants_count }} going
+                        <span class="am-icon-users am-icon-fw"></span> {{ event.get_reg_count }} going
                         <a class="am-btn am-btn-primary am-btn-xs" id="register-btn" data-id="{{ event.id }}">Register</a>
                     </li>
 				</ul>
@@ -39,6 +40,7 @@
             </div>
         </article>
 	</div>
+
 {% endblock %}
 
 {% block js %}
