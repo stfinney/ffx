@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, render_to_response
 # Create your views here.
 from django.template import RequestContext
@@ -87,6 +88,16 @@ def show(request, event_id):
         'tags': 'Free Food', 'participants_count': 3
     }
     return render(request, 'events_detail.html', {'event': event})
+
+def register(request, event_id):
+    # check whether user login
+    event_id = int(event_id)
+    if event_id % 3 == 0:
+        return JsonResponse({'return_code': 0, 'return_desc': 'success'})
+    elif event_id % 3 == 1:
+        return JsonResponse({'return_code': 100, 'return_desc': "User doesn't login yet"})
+    else:
+        return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
 
 def myinfo(request):
     return render(request, 'myinfo.html',{})

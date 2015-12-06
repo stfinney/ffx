@@ -25,18 +25,18 @@
         <form action="" class="am-form am-g">
             <div class="am-form-group am-u-sm-7 am-u-md-4">
                 <!-- Event Type -->
-                <select name="event_type" class="am-input-sm" data-am-selected>
-                    {% if event_type and event_type == '' %}
+                <select name="type" class="am-input-sm" data-am-selected>
+                    {% if request.GET.type and request.GET.type == 'all' %}
                         <option value="all" selected>All</option>
                     {% else %}
                         <option value="all">All</option>
                     {% endif %}
-                    {% if event_type and event_type == 'food' %}
+                    {% if request.GET.type and request.GET.type == 'food' %}
                         <option value="food" selected>Free Food</option>
                     {% else %}
                         <option value="food">Free Food</option>
                     {% endif %}
-                    {% if event_type and event_type == 'job' %}
+                    {% if request.GET.type and request.GET.type == 'job' %}
                         <option value="job" selected>Job Info Session</option>
                     {% else %}
                         <option value="job">Job Info Session</option>
@@ -47,10 +47,11 @@
             <!-- Start Date -->
             <div class="am-form-group am-form-icon am-u-sm-5 am-u-md-3">
                 <span class="am-icon-calendar"></span>
-                <input type="text" class="am-form-field" name="event_date" value="{{ event_date }}" placeholder="Start Date" readonly data-am-datepicker/>
+                <input type="text" class="am-form-field" name="event_date" value="{{ request.GET.event_date }}" placeholder="Start Date" readonly data-am-datepicker/>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-3">
-                <button type='button' class="am-btn am-btn-success am-fr" id="advanced-search-prompt" data-am-modal="{target: '#as-prompt'}">Advanced Search</button>
+                <!--data-am-modal="{target: '#as-prompt'}"-->
+                <button type='button' class="am-btn am-btn-success am-fr" id="advanced-search-prompt">Advanced Search</button>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-2">
                 <button class="am-btn am-btn-success">Search</button>
@@ -61,7 +62,7 @@
     <!-- Event list -->
     {% if events %}
         <div class="am-g">
-            <ul class="event-list">
+            <ul class="event-list" id="event-list">
                 {% include page_template %}
             </ul>
         </div>
@@ -74,55 +75,69 @@
         <div class="am-modal-dialog">
             <div class="am-modal-hd">Advanced Search</div>
             <div class="am-modal-bd">
-                <form action="" class="am-form am-form-horizontal">
-                    <div class="am-form-group-sm advanced-search-form-field">
-                        <select id="type" name="type" data-am-selected>
+                <select id="type" name="type" data-am-selected class="am-modal-prompt-input">
                             <option value="all">All</option>
                             <option value="food">Free Food</option>
                             <option value="job">Job Info Session</option>
-                        </select>
-                    </div>
-                    <div class="am-form-group-sm advanced-search-form-field">
-                        <input type="text" class="am-form-field" id="date" name="date" readonly placeholder="Date" data-am-datepicker/>
-                    </div>
-                    <div class="am-form-group-sm advanced-search-form-field">
-                        <input type="text" class="am-form-field" id="title" name="title" placeholder="Title"/>
-                    </div>
-                    <div class="am-form-group-sm advanced-search-form-field">
-                        <input type="text" class="am-form-field" id="organizer" name="organizer" placeholder="Organizer"/>
-                    </div>
-                    <div class="am-form-group-sm advanced-search-form-field">
-                        <input type="text" class="am-form-field" id="address" name="address" placeholder="Address"/>
-                    </div>
-                </form>
+                </select>
+                <input type="text" class="am-modal-prompt-input" id="date" name="date" readonly placeholder="Date" data-am-datepicker/>
+                <input type="text" class="am-modal-prompt-input" id="title" name="title" placeholder="Title"/>
+                <input type="text" class="am-modal-prompt-input" id="organizer" name="organizer" placeholder="Organizer"/>
+                <input type="text" class="am-modal-prompt-input" id="address" name="address" placeholder="Address"/>
             </div>
             <div class="am-modal-footer">
-              <span class="am-modal-btn" data-am-modal-cancel>Cancel</span>
-              <span class="am-modal-btn" data-am-modal-confirm>Search</span>
+                <span class="am-modal-btn" data-am-modal-cancel>Cancel</span>
+                <span class="am-modal-btn" data-am-modal-confirm>Search</span>
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block js %}
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script src="{% static 'js/endless-pagination.js' %}"></script>
-    <script>
+    <script type="text/javascript">
         $.endlessPaginate({paginateOnScroll: true});
 
-        <!--$(function() {-->
-            <!--$('#advanced-search-prompt').on('click', function() {-->
-                <!--$('#as-prompt').modal({-->
-                  <!--relatedTarget: this,-->
-                  <!--onConfirm: function(e) {-->
-                    <!--alert('你输入的是：' + e.data || '')-->
-                  <!--},-->
-                  <!--onCancel: function(e) {-->
-                    <!--alert('不想说!');-->
-                  <!--}-->
-                <!--});-->
-              <!--});-->
-        <!--});-->
+        var index_url = "{% url 'ffx:event_index' %}";
+        $(function() {
+            $('#advanced-search-prompt').on('click', function() {
+                $('#as-prompt').modal({
+                    relatedTarget: this,
+                    onConfirm: function(e) {
+                        index_url += ('?type=' + e.data[0] + '&date=' + e.data[1] + '&title=' + e.data[2]
+                            + '&organizer=' + e.data[3] + '&address=' + e.data[4]);
+                        window.location.replace(index_url);
+                    },
+                    onCancel: function(e) {
+                    }
+                });
+              });
+        });
+
+        $(function() {
+            $('#event-list').find('.register-btn').on('click', function () {
+                var id = $(this).attr('id');
+                var register_url = id + "/register";
+                $.ajax({
+                    url: register_url,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        var return_code = data.return_code;
+                        if (return_code == 0) {
+                            window.location.reload();
+                        }
+                        else if(return_code == 100){
+                            window.location.replace()
+                        }
+                    },
+                    error: function(xhr,errmsg,err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
     </script>
 
 {% endblock %}
