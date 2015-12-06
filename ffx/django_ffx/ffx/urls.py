@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^events/(?P<pk>[0-9]+)/$', views.EventDetail.as_view(), name='event_detail'),
     url(r'^events/(?P<pk>[0-9]+)/register/$', views.register, name='event_register'),
 
-    url(r'^user/info/(?P<type>[pc])/$', views.myinfo, name='myinfo'),
+    url(r'^user/info/(?P<user_id>\d+)/$', views.myinfo, name='myinfo'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^signup/$', views.signup, name='signup'),
 ]

@@ -177,7 +177,9 @@ def signup(request):
 
         if userform.is_valid() and profileform.is_valid():
             # Save user and profile
-            user = userform.save()
+            user = userform.save(commit=False)
+            user.set_password(user.password)
+            user.save()
             profile = profileform.save(commit=False)
             profile.user = user
             profile.save()
