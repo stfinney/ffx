@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<br>
+<div class="container">
+    <div>
+        <div class="am-u-md-3 am-u-sm-12">
+            <h2 style="font-size:200%;"><b>Yuning Hui</b></h2>
+            Username: huiyuning
+            <br>
+            Address: UCSD,9500 Gilman Drive.
+            <br>
+            Phone: 858-1234567
+            <br>
+
+        </div>
+        <div class="am-u-md-9 am-u-sm-12">
+            <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+                  <ul class="am-nav am-nav-tabs">
+                      <li class=""><a href="{% url 'ffx:myinfo_p' %}">I Participated</a></li>
+                      <li class="am-active"><a>I Created</a></li>
+                  </ul>
+                 <br>
+                 <div class="am-g">
+                    <ul class="event-list">
+                        {% include page_template %}
+                    </ul>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
