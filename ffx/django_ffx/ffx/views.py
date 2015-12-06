@@ -151,7 +151,7 @@ def signin(request):
 
 def signup(request):
     if request.method == 'GET':
-        return render(request, 'register.html',{})
+        return render(request, 'signup.html',{})
     elif request.method == 'POST':
         userform = RegistrationUserForm(data=request.POST)
         profileform = RegistrationProfileForm(data=request.POST)
@@ -165,4 +165,4 @@ def signup(request):
 
             return redirect('/events')
         else:
-            return render(request, 'register.html', {'userform': userform, 'profileform': profileform})
+            return render(request, 'signup.html', {'userform': userform, 'profileform': profileform})
