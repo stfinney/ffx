@@ -12,7 +12,7 @@ urlpatterns = [
 	url(r'^events/create$', views.createevent, name='event_create'),
     url(r'^events/(?P<event_id>[0-9]+)/cancel-register/$', views.cancel_register, name='event_cancel_register'),
 
-    url(r'^user/info/(?P<user_id>\d+)/$', views.myinfo, name='myinfo'),
+    url(r'^user/info/$', views.myinfo, name='myinfo'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^signup/$', views.signup, name='signup'),
 	url(r'^signout/$', views.signout, name='signout')
