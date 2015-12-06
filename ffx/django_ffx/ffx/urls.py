@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^user/info/(?P<user_id>\d+)/$', views.myinfo, name='myinfo'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^signup/$', views.signup, name='signup'),
+	url(r'^signout/$', views.signout, name='signout')
 ]

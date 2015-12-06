@@ -5,7 +5,8 @@ from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
 from django.views import generic
 from forms import RegistrationUserForm, RegistrationProfileForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import Event, EventType, Registration, Profile
 
@@ -108,7 +109,7 @@ def register(request, event_id):
     else:
         return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
 
-
+@login_required
 def myinfo(request, template='myinfo.html',
           page_template='events_list_page.html',type='p'):
     if type == 'p':
@@ -187,3 +188,7 @@ def signup(request):
             return redirect('/events')
         else:
             return render(request, 'signup.html', {'userform': userform, 'profileform': profileform})
+
+def signout(request):
+    logout(request)
+    return redirect('/events')
