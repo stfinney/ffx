@@ -109,6 +109,16 @@ def register(request, event_id):
     else:
         return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
 
+
+def cancel_register(request, event_id):
+    # check whether user login
+    event_id = int(event_id)
+    if event_id % 2 == 0:
+        return JsonResponse({'return_code': 0, 'return_desc': 'success'})
+    else:
+        return JsonResponse({'return_code': 200, 'return_desc': "User hasn't registered this event yet"})
+
+
 @login_required
 def myinfo(request, template='myinfo.html',
           page_template='events_list_page.html',type='p'):

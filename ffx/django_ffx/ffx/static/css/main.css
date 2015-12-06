@@ -1,8 +1,10 @@
 .fxx-slider {
     margin-top: 10px;
+    margin-left: 0;
+    margin-right: 0;
 }
 .centered {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 .centered form div {
     padding-left: 0;
@@ -14,8 +16,9 @@
     display: flex;
     margin-bottom: 5px;
 }
-.event-list ul{
-	padding: 0;
+.event-list{
+    padding-left: 15px;
+    padding-right: 15px;
 	list-style-type: none;
 }
 

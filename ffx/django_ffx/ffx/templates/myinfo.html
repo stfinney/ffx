@@ -17,21 +17,18 @@
         </div>
         <div class="am-u-md-9 am-u-sm-12">
             <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
-                  <ul class="am-nav am-nav-tabs">
-                      {% if type == 'c' %}
-                        <li class=""><a href="{% url 'ffx:myinfo' 'p' %}">I Participated</a></li>
-                        <li class="am-active"><a>I Created</a></li>
-                      {%else%}
-                        <li class="am-active"><a>I Participated</a></li>
-                        <li class=""><a href="{% url 'ffx:myinfo' 'c' %}">I Created</a></li>
-                      {%endif%}
-                  </ul>
-                 <br>
-                 <div class="am-g">
-                    <ul class="event-list">
-                        {% include page_template %}
-                    </ul>
-                 </div>
+                <ul class="am-nav am-nav-tabs">
+                  {% if type == 'c' %}
+                    <li class=""><a href="{% url 'ffx:myinfo' 'p' %}">I Participated</a></li>
+                    <li class="am-active"><a>I Created</a></li>
+                  {%else%}
+                    <li class="am-active"><a>I Participated</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' 'c' %}">I Created</a></li>
+                  {%endif%}
+                </ul>
+                <br>
+                <!-- Event list -->
+                {% include 'events_list.html' %}
             </div>
         </div>
     </div>
