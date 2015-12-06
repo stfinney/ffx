@@ -89,6 +89,7 @@ def show(request, event_id):
     }
     return render(request, 'events_detail.html', {'event': event})
 
+
 def register(request, event_id):
     # check whether user login
     event_id = int(event_id)
@@ -100,17 +101,28 @@ def register(request, event_id):
         return JsonResponse({'return_code': 200, 'return_desc': "User has already registered this event"})
 
 
-def myinfo_p(request, template='myinfo_p.html',
-          page_template='events_list_page.html'):
-    context = {
-        'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
-                    'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
-                    'tags': 'Free Food, Job Info Session', 'participants_count': 10},
-                   {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
-                    'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
-                    'tags': 'Free Food', 'participants_count': 100}],
-        'page_template': page_template,
-    }
+def myinfo(request, template='myinfo.html',
+          page_template='events_list_page.html',type='p'):
+    if type == 'p':
+        context = {
+            'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
+                        'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
+                        'tags': 'Free Food, Job Info Session', 'participants_count': 10},
+                       {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
+                        'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
+                        'tags': 'Free Food', 'participants_count': 100}],
+            'page_template': page_template, 'type': type
+        }
+    else:
+        context = {
+            'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_2.jpg',
+                        'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
+                        'tags': 'Free Food, Job Info Session', 'participants_count': 10},
+                       {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_1.jpg',
+                        'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
+                        'tags': 'Free Food', 'participants_count': 100}],
+            'page_template': page_template, 'type': type
+        }
     if request.is_ajax():
         template = page_template
     return render_to_response(
@@ -132,8 +144,9 @@ def myinfo_c(request, template='myinfo_c.html',
     return render_to_response(
         template, context, context_instance=RequestContext(request))
 
+
 def signin(request):
     return render(request, 'signin.html',{})
 
-def reg(request):
-    return render(request, 'register.html',{})
+def signup(request):
+    return render(request, 'signup.html',{})
