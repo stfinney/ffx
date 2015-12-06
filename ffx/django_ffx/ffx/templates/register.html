@@ -16,6 +16,7 @@
     <h2>Sign Up</h2>
     <hr>
     <form method="post" class="am-form">
+      {% csrf_token %}
       <label for="username">Username:</label>
       <input type="text" name="" id="username" value="">
       <br>
