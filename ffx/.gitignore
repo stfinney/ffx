@@ -11,3 +11,4 @@
 
 # migration files for django
 migrations
+django_ffx/db.sqlite3

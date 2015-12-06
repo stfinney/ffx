@@ -19,15 +19,18 @@
                         <span class="am-icon-clock-o am-icon-fw"></span> {{ event.event_date }} ({{ event.event_duration }}Hours)
                     </li>
                     <li class="am-text-truncate">
-                        <span class="am-icon-map-marker am-icon-fw"></span> <span>{{ event.address }}
-                        <br/> {{ event.location_text }}f
+                        {% if event.location_text %}
+                            <span class="am-icon-map-marker am-icon-fw"></span> {{ event.location_text }}({{ event.address }})
+                        {% else %}
+                            <span class="am-icon-map-marker am-icon-fw"></span> {{ event.address }}
+                        {% endif %}
                     </li>
                     <li>
                         <span class="am-icon-tags am-icon-fw"></span> {{ event.get_event_type }}
                     </li>
                     <li>
                         <span class="am-icon-users am-icon-fw"></span> {{ event.get_reg_count }} going
-                        <a class="am-btn am-btn-primary am-btn-xs" id="register-btn" data-id="{{ event.id }}">Register</a>
+                        <a class="am-btn am-btn-primary am-btn-xs" id="register-btn" data-id="{{ event.event_id }}">Register</a>
                     </li>
 				</ul>
 			</div>
