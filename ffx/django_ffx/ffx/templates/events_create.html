@@ -15,49 +15,102 @@
 </div>
 
 <div class="container" style="margin-bottom: 10px;">
-  <form method="post" class="am-form am-form-horizontal">
+  <form method="post" class="am-form am-form-horizontal" enctype="multipart/form-data">
     {% csrf_token %}
+    {{ form.non_field_errors }}
     <div class="am-u-md-7 am-u-sm-12" style="margin-bottom:50px;">
         <div class="am-form-group">
           <label for="title" class="am-u-sm-4 am-form-label">Title</label>
           <div class="am-u-sm-8">
-            <input type="text" name="title" id="title">
+            <input type="text" name="title" id="title" value="{{ form.title.value|default_if_none:"" }}">
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.title.errors %}
+              {{ error }}
+            {% endfor %}
           </div>
         </div>
         <div class="am-form-group">
           <label for="my-datetimepicker" class="am-u-sm-4 am-form-label">Date</label>
           <div class="am-u-sm-8 am-form-icon">
             <span class="am-icon-calendar" style="margin-left: 13px;"></span>
-              <input type="text" id="my-datetimepicker" name="event_date" class="form-datetime am-form-field" readonly>
+              <input type="text" id="my-datetimepicker" name="event_date" class="form-datetime am-form-field" value="{{ form.event_date.value|default_if_none:"" }}" readonly>
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.event_date.errors %}
+              {{ error }}
+            {% endfor %}
           </div>
         </div>
         <div class="am-form-group">
           <label for="my-end-datetimepicker" class="am-u-sm-4 am-form-label">End Time</label>
           <div class="am-u-sm-8 am-form-icon">
             <span class="am-icon-clock-o" style="margin-left: 13px;"></span>
-              <input type="text" id="my-end-datetimepicker" name="event_endtime" class="am-form-field" readonly>
+              <input type="text" id="my-end-datetimepicker" name="event_endtime" class="am-form-field" value="{{ form.event_endtime.value|default_if_none:"" }}" readonly>
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.event_endtime.errors %}
+              {{ error }}
+            {% endfor %}
           </div>
         </div>
         <div class="am-form-group">
           <label for="address" class="am-u-sm-4 am-form-label">Address</label>
           <div class="am-u-sm-8">
-            <input type="text" id="address" name="address">
+            <input type="text" id="address" name="address" value="{{ form.address.value|default_if_none:"" }}">
           </div>
-        </div>
-        <div class="am-form-group">
-          <label for="location-detail" class="am-u-sm-4 am-form-label">Location Detail</label>
           <div class="am-u-sm-8">
-            <input type="text" id="location-detail" name="location-text">
+            {% for error in form.address.errors %}
+              {{ error }}
+            {% endfor %}
           </div>
         </div>
         <div class="am-form-group">
-          <label for="event_type" class="am-u-sm-4 am-form-label">Tag</label>
+          <label for="location_text" class="am-u-sm-4 am-form-label">Location info</label>
+          <div class="am-u-sm-8">
+            <input type="text" id="location_text" name="location_text" value="{{ form.location_text.value|default_if_none:"" }}">
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.location_text.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="am-form-group">
+          <label for="event_type" class="am-u-sm-4 am-form-label">Type</label>
           <div class="am-u-sm-8" style="margin-top: 10px;">
               {% if event_types %}
                   {% for event_type in event_types %}
-                      <input type="checkbox" id="event_type" name="event_type" value="{{ event_type }}"> {{ event_type }}
+                      <input type="checkbox" id="event_type" name="event_type" value="{{ event_type.id }}"> {{ event_type }}
                   {% endfor %}
               {% endif %}
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.event_type.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="am-form-group">
+          <label for="capacity" class="am-u-sm-4 am-form-label">Capacity</label>
+          <div class="am-u-sm-8">
+            <input type="text" id="capacity" name="capacity" value="{{ form.capacity.value|default:"" }}">
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.capacity.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="am-form-group">
+          <label for="capacity" class="am-u-sm-4 am-form-label">Requires major</label>
+          <div class="am-u-sm-8">
+            <input type="text" id="requires_major" name="requires_major" value="{{ form.requires_major.value|default:"" }}">
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.requires_major.errors %}
+              {{ error }}
+            {% endfor %}
           </div>
         </div>
     </div>
@@ -70,14 +123,19 @@
             <button type="button" class="am-btn am-btn-default am-btn-sm">
               <i class="am-icon-cloud-upload"></i> Please Choose Your File</button>
           </div>
-          <input type="file" id="photo" name="photo" accept="image/*" onchange="loadFile(event)">
+          <input type="file" id="photo" name="image_url" accept="image/*" onchange="loadFile(event)">
       </div>
     </div>
 
     <div class="am-form-group am-align-left am-u-sm-12 am-u-md-12">
         <label for="desc" class="am-u-md-2 am-u-sm-12 am-form-label">Description</label>
         <div class="am-u-md-10 am-u-sm-12">
-          <textarea class="" rows="5" id="desc" name="desc"></textarea>
+          <textarea class="" rows="5" id="desc" name="description"></textarea>
+        </div>
+        <div class="am-u-md-10 am-u-sm-12">
+          {% for error in form.description.errors %}
+            {{ error }}
+          {% endfor %}
         </div>
     </div>
 
@@ -94,7 +152,7 @@
 
     <script type="text/javascript">
         $(function() {
-            // 判断今天的日期
+            // Analyzing today's date
             var today = new Date(),
                 yyyy = today.getFullYear(),
                 mm = today.getMonth() + 1,

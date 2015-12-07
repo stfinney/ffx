@@ -12,3 +12,4 @@
 # migration files for django
 migrations
 django_ffx/db.sqlite3
+django_ffx/media/events/*.jpg

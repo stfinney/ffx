@@ -71,7 +71,7 @@ def event_detail(request, pk):
     template = "events_detail.html"
 
     event = Event.objects.get(event_id=pk)
-    
+
     # check if user is logged in
     if request.user.is_authenticated():
 
@@ -216,18 +216,15 @@ def signout(request):
 
 @login_required
 def create(request):
-    if not request.user.is_authenticated():
-        return redirect('ffx:signin')
-
     if request.method == 'POST':
-        form = CreateEventForm(request.POST)
+        form = CreateEventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.organizer = User.objects.get(pk=request.user.id)
             event.save()
             return redirect('ffx:event_detail', pk=event.event_id)
-
     else:
         form = CreateEventForm()
-        event_types = EventType.objects.order_by('name')
-        return render(request, 'events_create.html', {'form': form, 'event_types': event_types})
+
+    event_types = EventType.objects.order_by('name')
+    return render(request, 'events_create.html', {'form': form, 'event_types': event_types})
