@@ -17,7 +17,7 @@
 <div class="container" style="margin-bottom: 10px;">
   <form method="post" class="am-form am-form-horizontal">
     {% csrf_token %}
-    <div class="am-u-md-6 am-u-sm-12" style="margin-bottom:50px;">
+    <div class="am-u-md-7 am-u-sm-12" style="margin-bottom:50px;">
         <div class="am-form-group">
           <label for="title" class="am-u-sm-4 am-form-label">Title</label>
           <div class="am-u-sm-8">
@@ -45,6 +45,12 @@
           </div>
         </div>
         <div class="am-form-group">
+          <label for="location-detail" class="am-u-sm-4 am-form-label">Location Detail</label>
+          <div class="am-u-sm-8">
+            <input type="text" id="location-detail" name="location-text">
+          </div>
+        </div>
+        <div class="am-form-group">
           <label for="event_type" class="am-u-sm-4 am-form-label">Tag</label>
           <div class="am-u-sm-8" style="margin-top: 10px;">
               {% if event_types %}
@@ -56,7 +62,7 @@
         </div>
     </div>
 
-    <div class="am-u-md-6 am-u-sm-12">
+    <div class="am-u-md-5 am-u-sm-12">
       <img src="{% static 'img/pleaseupload.png' %}" id="uploadedpic" class="am-img-responsive am-img-thumbnail" alt=""/>
       <div class="am-form-group am-form-file" style="margin-top:20px;">
           <label for="photo">Event Photo Upload</label>
@@ -75,7 +81,7 @@
         </div>
     </div>
 
-        <input type="submit" value="Create Event" class="am-btn am-btn-primary am-btn-sm am-fl">
+      <input type="submit" value="Create Event" class="create-event-btn am-btn am-btn-primary am-btn-sm">
 
   </form>
 </div>

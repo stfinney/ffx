@@ -1,3 +1,7 @@
+.content {
+    margin-bottom: 20px;
+}
+
 .fxx-slider {
     margin-top: 10px;
     margin-left: 0;
@@ -66,6 +70,9 @@
     margin-top: 10px;
 }
 
+.create-event-btn {
+    margin-left: 30px;
+}
 
 footer p {
       color: #7f8c8d;
