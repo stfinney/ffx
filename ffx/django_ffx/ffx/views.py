@@ -94,7 +94,8 @@ def event_detail(request, pk):
     context = {
         'event': event,
         'is_creator': is_creator,
-        'registered_users': reg_users
+        'registered_users': reg_users,
+        'is_organizer': request.user.groups.filter(name='organizers').exists()
     }
     print reg_users
     return render_to_response(template, context, context_instance=RequestContext(request))
@@ -164,7 +165,8 @@ def myinfo(request, template='myinfo.html',
         ).order_by('event_date')
 
     context = {
-        'profile': profile, 'events': events, 'page_template': page_template, 'type': type
+        'profile': profile, 'events': events, 'page_template': page_template, 'type': type,
+        'is_organizer': request.user.groups.filter(name='organizers').exists()
     }
     if request.is_ajax():
         template = page_template
