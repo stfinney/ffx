@@ -71,7 +71,7 @@ def event_detail(request, pk):
     template = "events_detail.html"
 
     event = Event.objects.get(event_id=pk)
-    
+
     # check if user is logged in
     if request.user.is_authenticated():
 
@@ -216,9 +216,6 @@ def signout(request):
 
 @login_required
 def create(request):
-    if not request.user.is_authenticated():
-        return redirect('ffx:signin')
-
     if request.method == 'POST':
         form = CreateEventForm(request.POST)
         if form.is_valid():
