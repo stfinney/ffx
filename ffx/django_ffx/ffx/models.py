@@ -19,7 +19,7 @@ class EventType(models.Model):
 class Event(models.Model):
     event_id = models.AutoField(primary_key=True, editable=False)
     title = models.CharField(max_length=200)
-    event_type = models.ManyToManyField(EventType)
+    event_type = models.ManyToManyField(EventType, blank=True)
     description = models.TextField('description of the event')
     event_date = models.DateTimeField()
     event_endtime = models.TimeField(blank=True, null=True, help_text='Time event ends, leave blank for no set duration.')
