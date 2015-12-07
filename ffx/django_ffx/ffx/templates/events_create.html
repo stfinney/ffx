@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
 <div style="text-align: center; margin-bottom:20px;">
   <div class="am-g">
     <h1 style="font-size: 200%; margin-top: 20px; margin-bottom: 0px;">Start an Event NOW</h1>
@@ -18,7 +17,7 @@
   <form method="post" class="am-form am-form-horizontal" enctype="multipart/form-data" name="eventform" onsubmit="validateform();">
     {% csrf_token %}
     {{ form.non_field_errors }}
-    <div class="am-u-md-7 am-u-sm-12" style="margin-bottom:50px;">
+    <div class="am-u-md-7 am-u-sm-12">
         <div class="am-form-group">
           <label for="title" class="am-u-sm-4 am-form-label">Title</label>
           <div class="am-u-sm-8">

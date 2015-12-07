@@ -217,11 +217,16 @@ def signout(request):
 @login_required
 def create(request):
     if request.method == 'POST':
+        # print request.POST.get('event_type')
         form = CreateEventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.organizer = User.objects.get(pk=request.user.id)
             event.save()
+            types = form.cleaned_data.get('event_type')
+            if types:
+                for type in types:
+                    event.event_type.add(type)
             return redirect('ffx:event_detail', pk=event.event_id)
     else:
         form = CreateEventForm()
