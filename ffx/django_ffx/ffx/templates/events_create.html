@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/amazeui.datetimepicker.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div style="text-align: center; margin-bottom:20px;">
@@ -19,54 +25,20 @@
           </div>
         </div>
         <div class="am-form-group">
-          <label for="my-datepicker" class="am-u-sm-4 am-form-label">Date</label>
+          <label for="my-datetimepicker" class="am-u-sm-4 am-form-label">Date</label>
           <div class="am-u-sm-8 am-form-icon">
             <span class="am-icon-calendar" style="margin-left: 13px;"></span>
-            <input type="text" class="am-form-field" name="date" id="my-datepicker" value="" placeholder="Event Date" readonly data-am-datepicker="">
+              <input type="text" id="my-datetimepicker" name="event_date" class="form-datetime am-form-field" readonly>
           </div>
         </div>
         <div class="am-form-group">
-          <label for="start-hour" class="am-u-sm-4 am-form-label">Start Hour</label>
-          <div class="am-u-sm-8">
-            <select id="start-hour" name="start-hour">
-              <option value="00">00</option>
-              <option value="01">01</option>
-              <option value="02">02</option>
-              <option value="03">03</option>
-              <option value="04">04</option>
-              <option value="05">05</option>
-              <option value="06">06</option>
-              <option value="07">07</option>
-              <option value="08">08</option>
-              <option value="09">09</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-              <option value="21">21</option>
-              <option value="22">22</option>
-              <option value="23">23</option>
-            </select>
+          <label for="my-end-datetimepicker" class="am-u-sm-4 am-form-label">End Time</label>
+          <div class="am-u-sm-8 am-form-icon">
+            <span class="am-icon-calendar" style="margin-left: 13px;"></span>
+              <input type="text" id="my-end-datetimepicker" name="event_endtime" class="form-datetime am-form-field" readonly>
           </div>
         </div>
-        <div class="am-form-group">
-          <label for="start-min" class="am-u-sm-4 am-form-label">Start Minute</label>
-          <div class="am-u-sm-8">
-            <select id="start-min" name="start-min">
-              <option value="00">00</option>
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
-            </select>
-          </div>
-        </div>
+
         <div class="am-form-group">
           <label for="end-hour" class="am-u-sm-4 am-form-label">End Hour</label>
           <div class="am-u-sm-8">
@@ -110,9 +82,9 @@
           </div>
         </div>
         <div class="am-form-group">
-          <label for="location" class="am-u-sm-4 am-form-label">Location</label>
+          <label for="address" class="am-u-sm-4 am-form-label">Address</label>
           <div class="am-u-sm-8">
-            <input type="text" id="location" name="location">
+            <input type="text" id="address" name="address">
           </div>
         </div>
         <div class="am-form-group">
@@ -149,12 +121,55 @@
     <input type="submit" value="Create Event" class="am-btn am-btn-primary am-btn-sm am-fl">
   </form>
 </div>
-
+<div class="datepicker-mask"></div>
+<div class="end-datepicker-mask"></div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/amazeui.datetimepicker.js' %}"></script>
+
     <script type="text/javascript">
-        $('#my-datepicker').datepicker({locale: 'en_US'});
+        $(function() {
+            // 判断今天的日期
+            var today = new Date(),
+                yyyy = today.getFullYear(),
+                mm = today.getMonth() + 1,
+                dd = today.getDate(),
+                time = yyyy + '-' + mm + '-' + dd;
+
+            $('.form-datetime').datetimepicker({
+                language:  'en-US',
+                format: 'yyyy-mm-dd hh:ii',
+                startDate: time,
+                autoclose: true,
+                minuteStep: 15
+            }).on('show', function(){
+                $('.datepicker-mask').show();
+            }).on('hide', function(){
+                $('.datepicker-mask').hide();
+            });
+
+            $('#my-end-datetimepicker').datetimepicker({
+                language:  'en-US',
+                format: 'hh:ii',
+                startDate: time,
+                autoclose: true,
+                minuteStep: 15,
+                pickTime: false
+            }).on('show', function(){
+                $('.end-datepicker-mask').show();
+            }).on('hide', function(){
+                $('.end-datepicker-mask').hide();
+            });
+
+            $('.datepicker-mask').click(function(){
+                $('.form-datetime').datetimepicker('hide');
+            });
+            $('.end-datepicker-mask').click(function(){
+                $('#my-end-datetimepicker').datetimepicker('hide');
+            });
+        });
+
     </script>
 
     <script>
