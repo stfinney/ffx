@@ -54,17 +54,6 @@
           </div>
         </div>
         <div class="am-form-group">
-          <label for="location_text" class="am-u-sm-4 am-form-label">Location info</label>
-          <div class="am-u-sm-8">
-            <input type="text" id="location_text" name="location_text" value="{{ form.location_text.value|default_if_none:"" }}">
-          </div>
-          <div class="am-u-sm-8">
-            {% for error in form.location_text.errors %}
-              {{ error }}
-            {% endfor %}
-          </div>
-        </div>
-        <div class="am-form-group">
           <label for="event_type" class="am-u-sm-4 am-form-label">Type</label>
           <div class="am-u-sm-8" style="margin-top: 10px;">
               {% if event_types %}
@@ -101,13 +90,25 @@
             {% endfor %}
           </div>
         </div>
+
         <div class="am-form-group">
-          <label for="address" class="am-u-sm-4 am-form-label">Address</label>
+          <label for="id_address" class="am-u-sm-4 am-form-label">Address</label>
           <div class="am-u-sm-8">
             <input type="text" id="id_address" name="address" value="{{ form.address.value|default_if_none:"" }}">
           </div>
           <div class="am-u-sm-8">
             {% for error in form.address.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="am-form-group">
+          <label for="location_text" class="am-u-sm-4 am-form-label">Location info</label>
+          <div class="am-u-sm-8">
+            <input type="text" id="location_text" name="location_text" value="{{ form.location_text.value|default_if_none:"" }}">
+          </div>
+          <div class="am-u-sm-8">
+            {% for error in form.location_text.errors %}
               {{ error }}
             {% endfor %}
           </div>
