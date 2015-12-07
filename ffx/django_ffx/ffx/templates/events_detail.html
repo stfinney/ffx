@@ -60,14 +60,16 @@
                 <p>{{ event.description }}</p>
             </div>
         </article>
+        {% if event.latitude and event.longitude %}
 		<hr>
-		<article class="am-article event-location">
-			<div class="am-article-bd">
-				<h3>Location</h3>
-				<p>	<div id="map" style="height: 300px; width: 100%"></div></p>
-			</div>
-		</article>
-        {% if is_creator %}
+        <article class="am-article event-location">
+            <div class="am-article-bd">
+                <h3>Location</h3>
+                <p>	<div id="map" style="height: 300px; width: 100%"></div></p>
+            </div>
+        </article>
+        {% endif %}
+        {% if is_creator and registered_users %}
         <hr>
         <article class="am-article event-attendees">
             <div class="am-article-bd">
@@ -78,7 +80,7 @@
                 {% endfor %}
                 </ul>
             </div>
-        </article>  
+        </article>
         {% endif %}      
 	</div>
     <div class="am-modal" tabindex="-1" id="cancel-register-modal">
@@ -99,7 +101,8 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript">
+    {% if event.latitude and event.longitude %}
+        <script type="text/javascript">
         var map;
         function initMap() {
             loc = {lat: {{ event.latitude }}, lng: {{ event.longitude }}};
@@ -114,8 +117,10 @@
             map: map
           });
         }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+    {% endif %}
+
     <script type="text/javascript">
         $(function() {
             $('.register-btn').on('click', function () {

@@ -78,7 +78,11 @@ def event_detail(request, pk):
         #check if this is an event they created
         if event.organizer.id == request.user.id:
             is_creator = True
-            reg_users = Registration.objects.filter(event=event.event_id).values_list('user_id', flat=True)
+            reg_users = User.objects.filter(
+                pk__in=Registration.objects.filter(user=request.user.id, event=pk).values_list('user_id', flat=True)
+            )
+
+            # reg_users = Registration.objects.filter(event=event.event_id).values_list('user_id', flat=True)
         else:
             reg_users = []
             is_creator = False
@@ -90,7 +94,7 @@ def event_detail(request, pk):
         'is_creator': is_creator,
         'registered_users': reg_users
     }
-
+    print reg_users
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 
