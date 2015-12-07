@@ -28,7 +28,7 @@ class Event(models.Model):
     map_marker = PlainLocationField(based_fields=[address], zoom=7, blank=True, help_text='Enter an address in the Address field to center the map on that location')
     location_text = models.TextField('additional location details', max_length=256, blank=True, help_text='Useful extra description of the location, if needed. Ex: in front of the Starbucks, or in Room 415 of Building 3A')
     organizer = models.ForeignKey(User)
-    capacity = models.PositiveIntegerField(help_text='Capacity must be positive, or enter 0 for no limit.', default=0, blank=True)
+    capacity = models.PositiveIntegerField(help_text='Capacity must be positive, or enter 0 for no limit.', default=0)
     public = models.BooleanField(default=True, help_text='If unchecked, event will only be visible to registered users')
     requires_major = models.CharField(max_length=100, help_text='Major required for attendance',blank=True)
     image_url = models.ImageField(upload_to='events',blank=True, help_text='Upload an image that will appear with your event in the listing')
