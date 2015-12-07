@@ -58,12 +58,31 @@ def index(request, template='events.html', page_template='events_list_page.html'
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 
-class EventDetail(generic.DetailView):
-    model = Event
-    template_name = "events_detail.html"
+def event_detail(request, pk):
+    template = "events_detail.html"
 
-    def get_queryset(self):
-        return Event.objects
+    event = Event.objects.get(event_id=pk)
+    
+    # check if user is logged in
+    if request.user.is_authenticated():
+
+        #check if this is an event they created
+        if event.organizer.id == request.user.id:
+            is_creator = True
+            reg_users = Registration.objects.filter(event=event.event_id).values_list('user_id', flat=True)
+        else:
+            reg_users = []
+            is_creator = False
+    else:
+        is_creator = False
+
+    context = {
+        'event': event,
+        'is_creator': is_creator,
+        'registered_users': reg_users
+    }
+
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def register(request, pk):
