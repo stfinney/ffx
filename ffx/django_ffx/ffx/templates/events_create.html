@@ -15,7 +15,7 @@
 </div>
 
 <div class="container" style="margin-bottom: 10px;">
-  <form method="post" class="am-form am-form-horizontal" enctype="multipart/form-data">
+  <form method="post" class="am-form am-form-horizontal" enctype="multipart/form-data" name="eventform" onsubmit="validateform();">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="am-u-md-7 am-u-sm-12" style="margin-bottom:50px;">
@@ -200,5 +200,29 @@
             var output = document.getElementById('uploadedpic');
             output.src = URL.createObjectURL(event.target.files[0]);
         };
+    </script>
+
+    <script>
+        function validateform() {
+            var str1=document.eventform.event_date.value;
+            var str2=document.eventform.event_endtime.value;
+            var year=str1.substr(0,4);
+            var month=str1.substr(5,2);
+            var day=str1.substr(8,2);
+            var hour1=str1.substr(11,2);
+            var min1=str1.substr(14,2);
+            var hour2=str2.substr(0,2);
+            var min2=str2.substr(3,2);
+            var starttime=new Date(year,month,day,hour1,min1);
+            var endtime=new Date(year,month,day,hour2,min2);
+            console.log(year);
+            console.log(month);
+
+            if (starttime>=endtime) {
+                alert("Start Time Should be Earlier Than End Time!");
+                return false;
+            }
+            else { return true; }
+        }
     </script>
 {% endblock %}
