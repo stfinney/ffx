@@ -12,6 +12,10 @@
             Address: {{ user.profile.address }}
             <br>
             Phone: {{ user.profile.phone }}
+
+            <div class="am-g" style="margin-top: 20px;">
+                <a href="{% url 'ffx:event_create' %}"><button class="am-btn am-btn-success am-btn-block">Create New Event</button></a>
+            </div>
             <br>
 
         </div>
