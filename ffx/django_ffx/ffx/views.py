@@ -185,4 +185,11 @@ def signout(request):
     return redirect('/events')
 
 def create(request):
-    return render(request, 'events_create.html',{})
+    if request.method == 'POST':
+        form = CreateEventForm(request.POST)
+        if form.is_valid():
+            event = form.save()
+            return redirect('ffx:event_detail', pk=event.id)
+    else:
+        form = CreateEventForm()
+        return render(request, 'events_create.html', {'form': form})
