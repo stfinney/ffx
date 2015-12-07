@@ -83,7 +83,7 @@ def event_detail(request, pk):
             is_creator = False
     else:
         is_creator = False
-
+        reg_users = []
     context = {
         'event': event,
         'is_creator': is_creator,
@@ -217,4 +217,5 @@ def create(request):
             return redirect('ffx:event_detail', pk=event.id)
     else:
         form = CreateEventForm()
-        return render(request, 'events_create.html', {'form': form})
+        event_types = EventType.objects.order_by('name')
+        return render(request, 'events_create.html', {'form': form, 'event_types': event_types})

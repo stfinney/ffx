@@ -122,10 +122,13 @@
           </div>
         </div>
         <div class="am-form-group">
-          <label for="tag-ff" class="am-u-sm-4 am-form-label">Tag</label>
+          <label for="event_type" class="am-u-sm-4 am-form-label">Tag</label>
           <div class="am-u-sm-8" style="margin-top: 10px;">
-              <input type="checkbox" id="tag-ff" name="tag-ff" value="tag-ff"> Free Food
-              <input type="checkbox" id="tag-js" name="tag-js" value="tag-js"> Job
+              {% if event_types %}
+                  {% for event_type in event_types %}
+                      <input type="checkbox" id="event_type" name="event_type" value="{{ event_type }}"> {{ event_type }}
+                  {% endfor %}
+              {% endif %}
           </div>
         </div>
     </div>
