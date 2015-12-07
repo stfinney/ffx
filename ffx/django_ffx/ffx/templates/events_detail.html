@@ -64,27 +64,41 @@
 						</div>
 				</article>
 	</div>
+    <div class="am-modal" tabindex="-1" id="cancel-register-modal">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <span class="am-icon-warning">Cancel Registration</span>
+            </div>
+            <div class="am-modal-bd">
+                Are you gonna cancel this registration?
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>No</span>
+                <span class="am-modal-btn" data-am-modal-confirm>Yes</span>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block js %}
-		<script type="text/javascript">
-		var map;
-		function initMap() {
-			loc = {lat: {{ event.latitude }}, lng: {{ event.longitude }}};
+    <script type="text/javascript">
+        var map;
+        function initMap() {
+            loc = {lat: {{ event.latitude }}, lng: {{ event.longitude }}};
 
-			map = new google.maps.Map(document.getElementById('map'), {
-				center: loc,
-				zoom: 8
-			});
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: loc,
+                zoom: 8
+            });
 
-			var marker = new google.maps.Marker({
-		    position: loc,
-		    map: map
-		  });
-		}
-		</script>
-		<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+            var marker = new google.maps.Marker({
+            position: loc,
+            map: map
+          });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
     <script type="text/javascript">
         $(function() {
             $('.register-btn').on('click', function () {
@@ -113,31 +127,39 @@
                 });
             });
 
-						$('.cancel-register-btn').on('click', function() {
-								var event_id = $(this).attr('data-id');
-								var cancel_register_url ="{% url 'ffx:event_cancel_register' 999 %}".replace (999, event_id);
-								var signin_url = "{% url 'ffx:signin' %}";
-								$.ajax({
-										url: cancel_register_url,
-										type: 'GET',
-										dataType: 'JSON',
-										success: function (data) {
-												var return_code = data.return_code;
-												if (return_code == 0) {
-														window.location.reload();
-												}
-												else if(return_code == 100){
-														window.location.replace(signin_url)
-												}
-												else {
-														alert(data.return_desc);
-												}
-										},
-										error: function(xhr,errmsg,err) {
-												console.log(xhr.status + ": " + xhr.responseText);
-										}
-								});
-						});
+            $('.cancel-register-btn').on('click', function() {
+                $('#cancel-register-modal').modal({
+                relatedTarget: this,
+                onConfirm: function() {
+                    var event_id = $(this.relatedTarget).data('id');
+                    var cancel_register_url = "{% url 'ffx:event_cancel_register' 999 %}".replace (999, event_id);
+                    var signin_url = "{% url 'ffx:signin' %}";
+                    $.ajax({
+                        url: cancel_register_url,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        success: function (data) {
+                            var return_code = data.return_code;
+                            if (return_code == 0) {
+                                window.location.reload();
+                            }
+                            else if (return_code == 100) {
+                                window.location.replace(signin_url)
+                            }
+                            else {
+                                alert(data.return_desc);
+                            }
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log(xhr.status + ": " + xhr.responseText);
+                        }
+                    })
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+                }
+            })
+            });
         });
     </script>
 {% endblock %}

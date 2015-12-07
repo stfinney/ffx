@@ -16,8 +16,8 @@ def index(request, template='events.html', page_template='events_list_page.html'
     event_types = EventType.objects.order_by('name')
 
     if request.method == 'GET':
-        if 'event_date' in request.GET and request.GET['event_date'] != '':
-            tmp = request.GET['event_date'].split("-")
+        if 'date' in request.GET and request.GET['date'] != '':
+            tmp = request.GET['date'].split("-")
             r_event_date = datetime.date(int(tmp[0]),int(tmp[1]),int(tmp[2]))
             dateQ = Q(  event_date__year=r_event_date.year,
                         event_date__month=r_event_date.month,
@@ -114,41 +114,25 @@ def myinfo(request, template='myinfo.html',
     if not request.user.is_authenticated():
         return redirect('ffx:signin')
 
-    # my_events = Event.objects.filter(event_id__in=Registration.objects.filter(user=request.user.id).only(Registration.event))
-    # print '========'
-    # print my_events
-    # print '========'
-
-    role = request.GET['role'] if request.GET['role'] else 'participant'
+    type = request.GET['type'] if request.GET['type'] else 'to_attend'
     # need to change to filter by role
-    if role == 'participant':
+    if type == 'to_attend':
         events = Event.objects.filter(
             event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
             event_date__gte=datetime.date.today()
         ).order_by('event_date')
-        # print events, Registration.objects.filter(user=request.user.id)
+    elif type == 'attended':
+        events = Event.objects.filter(
+            event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
+            event_date__lt=datetime.date.today()
+        ).order_by('event_date')
     else:
-        events = Event.objects.filter(organizer=request.user, event_date__gte=datetime.date.today()).order_by('event_date')
+        events = Event.objects.filter(
+            organizer=request.user, event_date__gte=datetime.date.today()
+        ).order_by('event_date')
 
     context = {
-        'events': events, 'page_template': page_template, 'role': role
-    }
-    if request.is_ajax():
-        template = page_template
-    return render_to_response(
-        template, context, context_instance=RequestContext(request))
-
-@login_required
-def myinfo_c(request, template='myinfo_c.html',
-          page_template='events_list_page.html'):
-    context = {
-        'events': [{'id': 1, 'title': 'E1', 'description': 'D1', 'image_url': '/static/img/event_1.jpg',
-                    'organizer': 'CSE', 'date': '2015-12-10', 'duration': 2, 'location': 'Central Hall',
-                    'tags': 'Free Food, Job Info Session', 'participants_count': 10},
-                   {'id': 2, 'title': 'E2', 'description': 'D2', 'image_url': '/static/img/event_2.jpg',
-                    'organizer': 'UCSD Graduate', 'date': '2015-12-20', 'duration': 2, 'location': 'Geisel Library',
-                    'tags': 'Free Food', 'participants_count': 100}],
-        'page_template': page_template,
+        'events': events, 'page_template': page_template, 'type': type
     }
     if request.is_ajax():
         template = page_template
@@ -188,6 +172,7 @@ def signup(request):
             profile.save()
 
             # Login the user
+            user = authenticate(username=user.username, password=request.POST['password'])
             login(request, user)
 
             # Redirect to events page
@@ -200,4 +185,11 @@ def signout(request):
     return redirect('/events')
 
 def create(request):
-    return render(request, 'events_create.html',{})
+    if request.method == 'POST':
+        form = CreateEventForm(request.POST)
+        if form.is_valid():
+            event = form.save()
+            return redirect('ffx:event_detail', pk=event.id)
+    else:
+        form = CreateEventForm()
+        return render(request, 'events_create.html', {'form': form})
