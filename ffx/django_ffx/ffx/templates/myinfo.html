@@ -7,11 +7,11 @@
     <div>
         <div class="am-u-md-3 am-u-sm-12">
             <h2 style="font-size:200%;"><b>{{ user.username }}</b></h2>
-            Email: {{ user.profile.email }}
+            <b>Email:</b> {{ user.email }}
             <br>
-            Address: {{ user.profile.address }}
+            <b>Phone:</b> {{ profile.phone }}
             <br>
-            Phone: {{ user.profile.phone }}
+            <b>Address:</b> {{ profile.address }}
 
             <div class="am-g" style="margin-top: 20px;">
                 <a href="{% url 'ffx:event_create' %}"><button class="am-btn am-btn-success am-btn-block">Create New Event</button></a>

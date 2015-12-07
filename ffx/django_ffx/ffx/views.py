@@ -133,6 +133,12 @@ def myinfo(request, template='myinfo.html',
     if not request.user.is_authenticated():
         return redirect('ffx:signin')
 
+    profiles = Profile.objects.filter(user=request.user.id)
+    if profiles and len(profiles):
+        profile = profiles[0]
+    else:
+        profile = None
+
     type = request.GET['type'] if request.GET['type'] else 'to_attend'
     # need to change to filter by role
     if type == 'to_attend':
@@ -151,7 +157,7 @@ def myinfo(request, template='myinfo.html',
         ).order_by('event_date')
 
     context = {
-        'events': events, 'page_template': page_template, 'type': type
+        'profile': profile, 'events': events, 'page_template': page_template, 'type': type
     }
     if request.is_ajax():
         template = page_template
