@@ -49,4 +49,8 @@
 {% block js %}
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script src="{% static 'js/endless-pagination.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+    <script type="text/javascript">
+        $.endlessPaginate({paginateOnScroll: true});
+    </script>
 {% endblock %}
