@@ -236,4 +236,4 @@ def create(request):
         form = CreateEventForm()
 
     event_types = EventType.objects.order_by('name')
-    return render(request, 'events_create.html', {'form': form, 'event_types': event_types})
+    return render(request, 'events_create.html', {'form': form, 'event_types': event_types, 'is_organizer': request.user.groups.filter(name='organizers').exists()})

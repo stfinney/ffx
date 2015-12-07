@@ -37,7 +37,9 @@
            <ul class="am-nav am-nav-pills am-topbar-nav">
              <li><a style="color:#fff;"><b>WELCOME {{ user.username }}</b></a></li>
              <li><a href="{% url 'ffx:myinfo' %}?type=to_attend" style="color:#fff;"><b>MY INFO</b></a></li>
-             <li><a href="{% url 'ffx:event_create' %}" style="color:#fff;"><b>CREATE EVENT</b></a></li>
+             {% if is_organizer %}
+              <li><a href="{% url 'ffx:event_create' %}" style="color:#fff;"><b>CREATE EVENT</b></a></li>
+             {% endif %}
             </ul>
          </div>
        {% else %}
