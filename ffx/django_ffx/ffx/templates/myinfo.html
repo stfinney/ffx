@@ -22,18 +22,18 @@
         <div class="am-u-md-9 am-u-sm-12">
             <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
                 <ul class="am-nav am-nav-tabs">
-                  {% if request.GET.type or request.GET.type == 'to_attend' %}
-                    <li class=""><a>To Attend</a></li>
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
+                  {% if request.GET.type == 'to_attend' %}
+                    <li class="am-active"><a>To Attend</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
                   {% elif request.GET.type == 'attended' %}
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
-                    <li class=""><a>Attended</a></li>
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
+                    <li class="am-active"><a>Attended</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
                   {% else %}
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
-                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
-                    <li class=""><a>Created</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
+                    <li class=""><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
+                    <li class="am-active"><a>Created</a></li>
                   {% endif %}
                 </ul>
                 <br>
@@ -49,4 +49,8 @@
 {% block js %}
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script src="{% static 'js/endless-pagination.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+    <script type="text/javascript">
+        $.endlessPaginate({paginateOnScroll: true});
+    </script>
 {% endblock %}

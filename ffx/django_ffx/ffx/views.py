@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from .models import Event, EventType, Registration, Profile, User
+from .models import Event, EventType, Registration, Profile
 
 def index(request, template='events.html', page_template='events_list_page.html'):
     latest_events = Event.objects.filter(event_date__gte=datetime.date.today()).order_by('event_date')[:5]
@@ -39,8 +39,7 @@ def index(request, template='events.html', page_template='events_list_page.html'
 
         if 'organizer' in request.GET and request.GET['organizer'] != '':
             r_org = request.GET['organizer']
-            match_org = User.objects.filter(username__contains=r_org)
-            organizerQ = Q(organizer__in=match_org)
+            organizerQ = Q(organizer__name__contains=r_org)
             mainQ = mainQ & organizerQ
 
         events = Event.objects.filter(mainQ).order_by('event_date')
@@ -52,6 +51,15 @@ def index(request, template='events.html', page_template='events_list_page.html'
         'event_types': event_types,
         'page_template': page_template,
     }
+
+
+    my_events = Event.objects.filter(
+        event_id__in=Registration.objects.filter(user = request.user.id).only(Registration.event)
+    )
+    #reg = Registration.objects.filter(user = request.user.id).only(Registration.event)
+    print '--------'
+    print my_events
+    print '--------'
 
     if request.is_ajax():
         template = page_template
