@@ -1,6 +1,7 @@
 from django import forms
 from models import Profile, Event
 from django.contrib.auth.models import User
+from location_field.forms.plain import PlainLocationField
 
 
 class RegistrationUserForm(forms.ModelForm):
@@ -18,5 +19,6 @@ class CreateEventForm(forms.ModelForm):
         model = Event
         fields = (
             'title', 'event_date', 'event_endtime', 'address', 'event_type',
-            'description', 'location_text', 'capacity', 'requires_major', 'image_url'
+            'description', 'location_text', 'capacity', 'requires_major', 'image_url',
+            'map_marker'
         )
