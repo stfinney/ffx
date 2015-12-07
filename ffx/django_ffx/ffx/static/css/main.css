@@ -9,6 +9,7 @@
     max-width: 100%;
     max-height: 100%;
 }
+
 .centered {
     /*margin-top: 10px;*/
 }
@@ -84,6 +85,9 @@ footer p {
 
 
 @media screen and (max-width: 640px) {
+    .fxx-slider-img {
+        height: 160px;
+    }
     .centered form div .select-width-auto {
          width: 160px;
     }
@@ -105,6 +109,10 @@ footer p {
     }
 }
 @media screen and (min-width: 641px) {
+    .fxx-slider-img {
+        height: 310px;
+    }
+
     .centered form div {
         padding-left: 0;
     }

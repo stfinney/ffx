@@ -10,9 +10,9 @@
                     {% for event in latest_events %}
                     <li>
                         {% if event.image_url %}
-                            <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}{{ event.image_url }}">
+                            <img class="am-img-thumbnail am-radius fxx-slider-img" src="{{ MEDIA_URL }}{{ event.image_url }}">
                         {% else %}
-                            <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}events/default_event.png">
+                            <img class="am-img-thumbnail am-radius fxx-slider-img" src="{{ MEDIA_URL }}events/default_event.png">
                         {% endif %}
                         <div class="am-slider-desc">
                             <a href="{% url 'ffx:event_detail' event.event_id %}"> {{ event.title }} </a>
