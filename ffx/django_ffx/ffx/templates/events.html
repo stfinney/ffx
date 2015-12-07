@@ -66,6 +66,12 @@
     <!-- Event list -->
     {% include 'events_list.html' %}
 
+    <div class="am-g" style="margin-top: 20px;">
+        <div class="am-u-sm-7 am-u-md-4">
+          <a href="{% url 'ffx:event_create' %}"><button class="am-btn am-btn-success am-btn-block">Create New Event</button></a>
+        </div>
+    </div>
+
     <div class="am-modal am-modal-prompt" tabindex="-1" id="as-prompt">
         <div class="am-modal-dialog">
             <div class="am-modal-hd">Advanced Search</div>
