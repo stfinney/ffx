@@ -1,5 +1,6 @@
 import datetime, time
 
+from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -209,12 +210,19 @@ def signout(request):
     logout(request)
     return redirect('/events')
 
+@login_required
 def create(request):
+    if not request.user.is_authenticated():
+        return redirect('ffx:signin')
+
     if request.method == 'POST':
         form = CreateEventForm(request.POST)
         if form.is_valid():
-            event = form.save()
-            return redirect('ffx:event_detail', pk=event.id)
+            event = form.save(commit=False)
+            event.organizer = User.objects.get(pk=request.user.id)
+            event.save()
+            return redirect('ffx:event_detail', pk=event.event_id)
+
     else:
         form = CreateEventForm()
         event_types = EventType.objects.order_by('name')
