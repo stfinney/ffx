@@ -134,14 +134,14 @@
     </div>
 
     <div class="am-u-md-6 am-u-sm-12">
-      <img src="{% static 'img/pleaseupload.png' %}" class="am-img-responsive am-img-thumbnail" alt=""/>
+      <img src="{% static 'img/pleaseupload.png' %}" id="uploadedpic" class="am-img-responsive am-img-thumbnail" alt=""/>
       <div class="am-form-group am-form-file" style="margin-top:20px;">
           <label for="photo">Event Photo Upload</label>
           <div>
             <button type="button" class="am-btn am-btn-default am-btn-sm">
               <i class="am-icon-cloud-upload"></i> Please Choose Your File</button>
           </div>
-          <input type="file" id="photo" name="photo">
+          <input type="file" id="photo" name="photo" accept="image/*" onchange="loadFile(event)">
       </div>
     </div>
 
@@ -157,6 +157,16 @@
   </form>
 </div>
 
+{% endblock %}
 
+{% block js %}
+
+<script>
+    var loadFile;
+    loadFile = function (event) {
+        var output = document.getElementById('uploadedpic');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
 
 {% endblock %}
