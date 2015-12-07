@@ -5,7 +5,11 @@
         <h2>Event Detail</h2>
 		<div class="event-info am-g">
 			<div class="event-img clearfix am-u-sm-10 am-u-sm-centered am-u-md-5 am-u-md-uncentered">
-				<img src="{{ MEDIA_URL }}{{ event.image_url }}">
+                {% if event.image_url %}
+                    <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}{{ event.image_url }}">
+                {% else %}
+                    <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}events/default_event.png">
+                {% endif %}
 			</div>
 			<div class="event-brief-info am-u-sm-10 am-u-sm-centered am-u-md-5 am-u-md-uncentered">
 				<ul class="am-avg-sm-1">
