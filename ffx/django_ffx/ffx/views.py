@@ -51,8 +51,10 @@ def index(request, template='events.html', page_template='events_list_page.html'
         'events': events,
         'event_types': event_types,
         'page_template': page_template,
+        'is_organizer': request.user.groups.filter(name='organizers').exists()
     }
 
+    print 'Is organizer? ' + str(context['is_organizer'])
 
     my_events = Event.objects.filter(
         event_id__in=Registration.objects.filter(user = request.user.id).only(Registration.event)
