@@ -106,32 +106,23 @@ def myinfo(request, template='myinfo.html',
     if not request.user.is_authenticated():
         return redirect('ffx:signin')
 
-<<<<<<< HEAD
-    role = request.GET['role'] if request.GET['role'] else 'participant'
-=======
     type = request.GET['type'] if request.GET['type'] else 'to_attend'
->>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
     # need to change to filter by role
     if type == 'to_attend':
         events = Event.objects.filter(
             event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
             event_date__gte=datetime.date.today()
         ).order_by('event_date')
-<<<<<<< HEAD
-=======
     elif type == 'attended':
         events = Event.objects.filter(
             event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
             event_date__lt=datetime.date.today()
         ).order_by('event_date')
->>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
     else:
         events = Event.objects.filter(
             organizer=request.user, event_date__gte=datetime.date.today()
         ).order_by('event_date')
 
-<<<<<<< HEAD
-=======
     context = {
         'events': events, 'page_template': page_template, 'type': type
     }
@@ -141,7 +132,6 @@ def myinfo(request, template='myinfo.html',
         template, context, context_instance=RequestContext(request))
 
 
->>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html',{})
