@@ -6,12 +6,12 @@
 <div class="container">
     <div>
         <div class="am-u-md-3 am-u-sm-12">
-            <h2 style="font-size:200%;"><b>{{ user.name }}</b></h2>
-            Username: {{ user.name }}
+            <h2 style="font-size:200%;"><b>{{ user.username }}</b></h2>
+            Email: {{ user.profile.email }}
             <br>
-            Address: {{ user.address }}
+            Address: {{ user.profile.address }}
             <br>
-            Phone: {{ user.phone }}
+            Phone: {{ user.profile.phone }}
 
             <div class="am-g" style="margin-top: 20px;">
                 <a href="{% url 'ffx:event_create' %}"><button class="am-btn am-btn-success am-btn-block">Create New Event</button></a>
@@ -22,12 +22,18 @@
         <div class="am-u-md-9 am-u-sm-12">
             <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
                 <ul class="am-nav am-nav-tabs">
-                  {% if request.GET.role == 'organizer' %}
-                    <li class=""><a href="{% url 'ffx:myinfo' %}?role=participant">I Participated</a></li>
-                    <li class="am-active"><a>I Created</a></li>
+                  {% if request.GET.type or request.GET.type == 'to_attend' %}
+                    <li class=""><a>To Attend</a></li>
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
+                  {% elif request.GET.type == 'attended' %}
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
+                    <li class=""><a>Attended</a></li>
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=created">Created</a></li>
                   {% else %}
-                    <li class="am-active"><a>I Participated</a></li>
-                    <li class=""><a href="{% url 'ffx:myinfo' %}?role=organizer">I Created</a></li>
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=to_attend">To Attend</a></li>
+                    <li class="am-active"><a href="{% url 'ffx:myinfo' %}?type=attended">Attended</a></li>
+                    <li class=""><a>Created</a></li>
                   {% endif %}
                 </ul>
                 <br>
