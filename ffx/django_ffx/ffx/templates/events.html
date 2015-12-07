@@ -48,7 +48,7 @@
             <!-- Start Date -->
             <div class="am-form-group am-form-icon am-u-sm-5 am-u-md-3">
                 <span class="am-icon-calendar"></span>
-                <input type="text" class="am-form-field" name="event_date" id="my-datepicker" value="{{ request.GET.event_date }}" placeholder="Date" readonly data-am-datepicker/>
+                <input type="text" class="am-form-field" name="date" id="my-datepicker" value="{{ request.GET.date }}" placeholder="Date" readonly data-am-datepicker/>
             </div>
             <div class="am-form-group am-u-sm-6 am-u-md-3">
                 <!--data-am-modal="{target: '#as-prompt'}"-->
@@ -82,10 +82,12 @@
                         {% endfor %}
                     {% endif %}
                 </select>
-                <input type="text" class="am-modal-prompt-input" id="date" name="date" readonly placeholder="Date" data-am-datepicker/>
-                <input type="text" class="am-modal-prompt-input" id="title" name="title" placeholder="Title"/>
-                <input type="text" class="am-modal-prompt-input" id="organizer" name="organizer" placeholder="Organizer"/>
-                <input type="text" class="am-modal-prompt-input" id="address" name="address" placeholder="Address"/>
+                <input type="text" class="am-modal-prompt-input" id="date" name="date" value="{{ request.GET.date }}"
+                       readonly placeholder="Date" data-am-datepicker/>
+                <input type="text" class="am-modal-prompt-input" id="title" name="title" value="{{ request.GET.title }}"
+                       placeholder="Title"/>
+                <input type="text" class="am-modal-prompt-input" id="organizer" name="organizer"
+                       value="{{ request.GET.organizer }}" placeholder="Organizer"/>
             </div>
             <div class="am-modal-footer">
                 <span class="am-modal-btn" data-am-modal-cancel>Cancel</span>

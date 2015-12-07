@@ -16,8 +16,8 @@ def index(request, template='events.html', page_template='events_list_page.html'
     event_types = EventType.objects.order_by('name')
 
     if request.method == 'GET':
-        if 'event_date' in request.GET and request.GET['event_date'] != '':
-            tmp = request.GET['event_date'].split("-")
+        if 'date' in request.GET and request.GET['date'] != '':
+            tmp = request.GET['date'].split("-")
             r_event_date = datetime.date(int(tmp[0]),int(tmp[1]),int(tmp[2]))
             dateQ = Q(  event_date__year=r_event_date.year,
                         event_date__month=r_event_date.month,
@@ -106,18 +106,34 @@ def myinfo(request, template='myinfo.html',
     if not request.user.is_authenticated():
         return redirect('ffx:signin')
 
+<<<<<<< HEAD
     role = request.GET['role'] if request.GET['role'] else 'participant'
+=======
+    type = request.GET['type'] if request.GET['type'] else 'to_attend'
+>>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
     # need to change to filter by role
-    if role == 'participant':
+    if type == 'to_attend':
         events = Event.objects.filter(
             event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
             event_date__gte=datetime.date.today()
         ).order_by('event_date')
+<<<<<<< HEAD
+=======
+    elif type == 'attended':
+        events = Event.objects.filter(
+            event_id__in=Registration.objects.filter(user=request.user.id).values_list('event_id', flat=True),
+            event_date__lt=datetime.date.today()
+        ).order_by('event_date')
+>>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
     else:
-        events = Event.objects.filter(organizer=request.user, event_date__gte=datetime.date.today()).order_by('event_date')
+        events = Event.objects.filter(
+            organizer=request.user, event_date__gte=datetime.date.today()
+        ).order_by('event_date')
 
+<<<<<<< HEAD
+=======
     context = {
-        'events': events, 'page_template': page_template, 'role': role
+        'events': events, 'page_template': page_template, 'type': type
     }
     if request.is_ajax():
         template = page_template
@@ -125,6 +141,7 @@ def myinfo(request, template='myinfo.html',
         template, context, context_instance=RequestContext(request))
 
 
+>>>>>>> ebcef9500a832c7ccabde7d70945d99824ff10dc
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html',{})
