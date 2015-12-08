@@ -56,11 +56,15 @@
         <div class="am-form-group">
           <label for="event_type" class="am-u-sm-4 am-form-label">Type</label>
           <div class="am-u-sm-8" style="margin-top: 10px;">
+              <ul class="am-avg-md-2">
               {% if event_types %}
                   {% for event_type in event_types %}
+                    <li>
                       <input type="checkbox" id="event_type" name="event_type" value="{{ event_type.id }}"> {{ event_type }}
+                    </li>
                   {% endfor %}
               {% endif %}
+              </ul>
           </div>
           <div class="am-u-sm-8">
             {% for error in form.event_type.errors %}

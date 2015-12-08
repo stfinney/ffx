@@ -5,9 +5,9 @@
         <div class="event-img clearfix">
             <a href="{% url 'ffx:event_detail' event.event_id %}">
                 {% if event.image_url %}
-                    <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}{{ event.image_url }}">
+                    <img class="am-img-thumbnail am-radius list-img" src="{{ MEDIA_URL }}{{ event.image_url }}">
                 {% else %}
-                    <img class="am-img-thumbnail am-radius" src="{{ MEDIA_URL }}events/default_event.png">
+                    <img class="am-img-thumbnail am-radius list-img" src="{{ MEDIA_URL }}events/default_event.png">
                 {% endif %}
             </a>
         </div>

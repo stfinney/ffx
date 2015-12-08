@@ -88,6 +88,10 @@ footer p {
     .fxx-slider-img {
         height: 160px;
     }
+    .list-img {
+        height: 98px;
+        width: 160px;
+    }
     .centered form div .select-width-auto {
          width: 160px;
     }
@@ -111,6 +115,10 @@ footer p {
 @media screen and (min-width: 641px) {
     .fxx-slider-img {
         height: 310px;
+    }
+    .list-img {
+        height: 182px;
+        width: 300px;
     }
 
     .centered form div {
